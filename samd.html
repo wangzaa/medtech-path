@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Software as a Medical Device — Logic Tree</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0E0E12;
+    --bg-elevated: #16171D;
+    --bg-card: #1C1E26;
+    --ink: #ECE8DD;
+    --ink-soft: #C4C0B5;
+    --ink-muted: #8A8780;
+    --rule: #2A2C36;
+    --rule-soft: #1F2129;
+    --accent: #4ECDC4;
+    --accent-glow: rgba(78, 205, 196, 0.15);
+    --decision: #F4B860;
+    --pathway-a: #6DD3A7;
+    --pathway-b: #F4B860;
+    --pathway-c: #E27D7D;
+    --pathway-x: #C792EA;
+    --output: #4ECDC4;
+    --critical: #FF6B6B;
+  }
+
+  html[data-theme="light"] {
+    --bg:           #F0F2F8;
+    --bg-elevated:  #E8EBF4;
+    --bg-card:      #E0E4F0;
+    --ink:          #1A1B22;
+    --ink-soft:     #3C3E50;
+    --ink-muted:    #6E7080;
+    --rule:         #C8CCE0;
+    --rule-soft:    #D8DCF0;
+    --accent:       #1A9E96;
+    --accent-glow:  rgba(26, 158, 150, 0.12);
+    --decision:     #B07A10;
+    --pathway-a:    #3A8A68;
+    --pathway-b:    #B07A10;
+    --pathway-c:    #B03030;
+    --pathway-x:    #7040B0;
+    --output:       #1A9E96;
+    --critical:     #B02020;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 15% 20%, rgba(78, 205, 196, 0.06) 0%, transparent 40%),
+      radial-gradient(circle at 85% 80%, rgba(199, 146, 234, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 50% 50%, rgba(244, 184, 96, 0.02) 0%, transparent 60%);
+  }
+
+  .scanlines {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background-image: repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.005),
+      rgba(255, 255, 255, 0.005) 1px,
+      transparent 1px,
+      transparent 3px
+    );
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 24px 120px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ============ HEADER ============ */
+
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: "◢";
+    color: var(--accent);
+    font-size: 10px;
+  }
+
+  .eyebrow-meta {
+    color: var(--ink-muted);
+    margin-left: auto;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+    font-size: clamp(40px, 7vw, 68px);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 144;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--accent);
+    font-variation-settings: "opsz" 144;
+  }
+
+  .subtitle {
+    font-size: 19px;
+    color: var(--ink-soft);
+    max-width: 640px;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.45;
+  }
+
+  .definition {
+    margin-top: 36px;
+    padding: 24px 28px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+
+  .definition-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .definition-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 18px;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .definition-source {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    margin-top: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* ============ LEGEND ============ */
+
+  .legend {
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    padding: 20px 24px;
+    margin: 48px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .legend-marker {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+    margin-top: 4px;
+    border-radius: 2px;
+    box-shadow: 0 0 12px currentColor;
+  }
+
+  .legend-marker.decision { background: var(--decision); color: var(--decision); }
+  .legend-marker.pathway-a { background: var(--pathway-a); color: var(--pathway-a); }
+  .legend-marker.pathway-b { background: var(--pathway-b); color: var(--pathway-b); }
+  .legend-marker.pathway-c { background: var(--pathway-c); color: var(--pathway-c); }
+  .legend-marker.pathway-x { background: var(--pathway-x); color: var(--pathway-x); }
+
+  .legend-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ============ CONTROLS ============ */
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .control-btn {
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+  }
+
+  .control-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .theme-toggle {
+    margin-left: auto;
+  }
+
+  /* ============ NAVIGATION ============ */
+
+  .stage-nav {
+    position: sticky;
+    top: 16px;
+    background: rgba(14, 14, 18, 0.92);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--rule);
+    padding: 12px 16px;
+    margin-bottom: 48px;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .stage-nav a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 4px 10px;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .stage-nav a:hover {
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .nav-label {
+    color: var(--ink);
+    font-weight: 600;
+    margin-right: 4px;
+    padding: 4px 0;
+  }
+
+  /* ============ STAGE ============ */
+
+  .stage {
+    margin-bottom: 64px;
+  }
+
+  .stage-header {
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 16px;
+    margin-bottom: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .stage-header:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .stage-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+
+  .stage-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(22px, 3.5vw, 32px);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 60;
+  }
+
+  .stage-toggle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ink-muted);
+    transition: transform 0.3s ease;
+    user-select: none;
+  }
+
+  .stage.collapsed .stage-toggle {
+    transform: rotate(-90deg);
+  }
+
+  .stage.collapsed .stage-body {
+    display: none;
+  }
+
+  .stage-intro {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    padding-left: 114px;
+    max-width: 720px;
+  }
+
+  @media (max-width: 600px) {
+    .stage-intro { padding-left: 0; }
+    .stage-header {
+      grid-template-columns: 1fr auto;
+    }
+    .stage-number {
+      grid-column: 1 / -1;
+      margin-bottom: -8px;
+    }
+  }
+
+  /* ============ DECISION ============ */
+
+  .decision {
+    margin-bottom: 36px;
+    padding-left: 28px;
+    border-left: 1px solid var(--rule);
+    position: relative;
+  }
+
+  .decision::before {
+    content: "";
+    position: absolute;
+    left: -6px;
+    top: 6px;
+    width: 11px;
+    height: 11px;
+    background: var(--bg);
+    border: 2px solid var(--decision);
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(244, 184, 96, 0.4);
+  }
+
+  .decision-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--decision);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .decision-question {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-variation-settings: "opsz" 36;
+  }
+
+  /* ============ BRANCH ============ */
+
+  .branches {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 4px;
+  }
+
+  .branch {
+    position: relative;
+    padding: 16px 20px 16px 32px;
+    background: var(--bg-card);
+    border-left: 3px solid var(--pathway-a);
+    transition: all 0.25s ease;
+  }
+
+  .branch:hover {
+    background: var(--bg-elevated);
+    transform: translateX(3px);
+  }
+
+  .branch.path-a { border-left-color: var(--pathway-a); }
+  .branch.path-b { border-left-color: var(--pathway-b); }
+  .branch.path-c { border-left-color: var(--pathway-c); }
+  .branch.path-x { border-left-color: var(--pathway-x); }
+
+  .branch::before {
+    content: "→";
+    position: absolute;
+    left: 12px;
+    top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink-muted);
+    font-size: 14px;
+  }
+
+  .branch-condition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .branch.path-a .branch-condition { color: var(--pathway-a); }
+  .branch.path-b .branch-condition { color: var(--pathway-b); }
+  .branch.path-c .branch-condition { color: var(--pathway-c); }
+  .branch.path-x .branch-condition { color: var(--pathway-x); }
+
+  .branch-action {
+    font-family: 'Newsreader', serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+
+  .branch-action strong {
+    font-weight: 500;
+    color: var(--accent);
+  }
+
+  .branch-detail {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 6px;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  .sub-branches {
+    margin-top: 12px;
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sub-branch {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    padding: 3px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .sub-branch::before {
+    content: "└";
+    color: var(--rule);
+    font-weight: bold;
+  }
+
+  /* ============ MATRIX (IMDRF) ============ */
+
+  .matrix-container {
+    margin: 24px 0;
+    overflow-x: auto;
+  }
+
+  .matrix {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    min-width: 540px;
+  }
+
+  .matrix th, .matrix td {
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+    text-align: center;
+  }
+
+  .matrix th {
+    background: var(--bg-elevated);
+    color: var(--ink-muted);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 10px;
+  }
+
+  .matrix .row-label {
+    text-align: left;
+    background: var(--bg-elevated);
+    color: var(--ink-soft);
+    font-weight: 500;
+  }
+
+  .matrix .cat-1 { background: rgba(109, 211, 167, 0.12); color: var(--pathway-a); font-weight: 600; }
+  .matrix .cat-2 { background: rgba(244, 184, 96, 0.12); color: var(--pathway-b); font-weight: 600; }
+  .matrix .cat-3 { background: rgba(226, 125, 125, 0.15); color: var(--pathway-c); font-weight: 600; }
+  .matrix .cat-4 { background: rgba(255, 107, 107, 0.2); color: var(--critical); font-weight: 700; }
+
+  .matrix-caption {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  /* ============ OUTPUT ============ */
+
+  .output-box {
+    margin-top: 28px;
+    padding: 18px 22px;
+    background: linear-gradient(135deg, rgba(78, 205, 196, 0.08), rgba(78, 205, 196, 0.02));
+    border: 1px solid rgba(78, 205, 196, 0.2);
+    border-radius: 2px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .output-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.9;
+  }
+
+  .output-content {
+    font-family: 'Newsreader', serif;
+    font-size: 15px;
+    line-height: 1.45;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink);
+  }
+
+  /* ============ CONNECTOR ============ */
+
+  .connector {
+    height: 48px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--rule), transparent);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .connector::after {
+    content: "▼";
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--rule);
+    font-size: 9px;
+  }
+
+  /* ============ FOOTNOTE ============ */
+
+  .footnote {
+    margin-top: 80px;
+    padding: 32px 36px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--accent);
+    position: relative;
+  }
+
+  .footnote-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 14px;
+    font-weight: 600;
+  }
+
+  .footnote-text {
+    font-family: 'Newsreader', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .footnote-text em {
+    font-style: italic;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .footnote-text strong {
+    color: var(--accent);
+    font-weight: 500;
+  }
+
+  /* ============ CRITICAL CALLOUT ============ */
+
+  .critical-callout {
+    margin: 16px 0;
+    padding: 12px 16px;
+    background: rgba(255, 107, 107, 0.06);
+    border: 1px solid rgba(255, 107, 107, 0.2);
+    border-radius: 2px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--critical);
+    letter-spacing: 0.05em;
+    line-height: 1.5;
+  }
+
+  .critical-callout::before {
+    content: "⚠ ";
+    margin-right: 4px;
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 80px; }
+    .definition-text { font-size: 16px; }
+    .decision { padding-left: 22px; }
+    .branch { padding: 14px 16px 14px 28px; }
+    .output-box { flex-direction: column; gap: 8px; }
+  }
+
+  .tab-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 2px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 24px;
+  }
+  .tab-nav__item {
+    padding: 10px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink-muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-nav__item:hover {
+    color: var(--ink-soft);
+  }
+  .tab-nav__item--active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<nav class="tab-nav">
+  <a class="tab-nav__item" href="medtech-commercialisation.html">Medtech Commercialisation</a>
+  <a class="tab-nav__item tab-nav__item--active" href="samd.html">Software as a Medical Device</a>
+</nav>
+
+<div class="container">
+
+  <header>
+    <h1>Software<br>as a <em>Medical</em><br>Device</h1>
+    <p class="subtitle">A logic tree for Software as a Medical Device, from boundary classification through regulatory approval and post-market change control.</p>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-marker decision"></div>
+      <div><span class="legend-label">Decision</span><div>Branch point</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-a"></div>
+      <div><span class="legend-label">Preferred</span><div>Lower regulatory burden</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-b"></div>
+      <div><span class="legend-label">Conditional</span><div>Standard pathway</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-c"></div>
+      <div><span class="legend-label">High-burden</span><div>Full clinical evidence</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-x"></div>
+      <div><span class="legend-label">AI/ML specific</span><div>Adaptive system path</div></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="control-btn" onclick="expandAll()">Expand all</button>
+    <button class="control-btn" onclick="collapseAll()">Collapse all</button>
+    <button class="control-btn theme-toggle" onclick="toggleTheme()" id="themeBtn">☀ Light mode</button>
+  </div>
+
+  <nav class="stage-nav">
+    <span class="nav-label">Stages:</span>
+    <a href="#stage-1">01 Boundary</a>
+    <a href="#stage-2">02 Risk Class</a>
+    <a href="#stage-3">03 AI/ML</a>
+    <a href="#stage-4">04 Lifecycle</a>
+    <a href="#stage-5">05 Cybersecurity</a>
+    <a href="#stage-6">06 Clinical Eval</a>
+    <a href="#stage-7">07 Submission</a>
+    <a href="#stage-8">08 Post-Market</a>
+  </nav>
+
+  <!-- ========== STAGE 1: BOUNDARY ========== -->
+  <section class="stage" id="stage-1">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 01</div>
+      <h2 class="stage-title">Is It Actually SaMD?</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">The threshold question. Many wellness apps and clinical tools are not SaMD — getting this wrong either over-regulates a non-device or, more dangerously, under-regulates a true medical device.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 1.1</div>
+        <div class="decision-question">Does the software perform a medical purpose independent of hardware?</div>
+        <div class="branches">
+          <div class="branch path-c">
+            <div class="branch-condition">Yes — standalone medical purpose</div>
+            <div class="branch-action"><strong>SaMD confirmed.</strong> Software treats, diagnoses, cures, mitigates, or prevents disease; or affects body structure/function.</div>
+            <div class="branch-detail">Proceed to classification. Examples: image analysis algorithms, treatment planners, diagnostic apps.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">No — drives or controls hardware device</div>
+            <div class="branch-action"><strong>Software IN a medical device (SiMD).</strong> Regulated as part of the parent device, not as SaMD.</div>
+            <div class="branch-detail">Example: firmware in an infusion pump or pacemaker. Different regulatory treatment.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">No — manufacturing or maintenance software</div>
+            <div class="branch-action"><strong>Not SaMD.</strong> Quality system software; regulated under QMS but not as a device.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 1.2</div>
+        <div class="decision-question">Does an exemption or exclusion apply?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">General wellness</div>
+            <div class="branch-action"><strong>Likely outside device scope.</strong> Low-risk software promoting healthy lifestyle without disease claims.</div>
+            <div class="branch-detail">Step trackers, meditation apps, fitness goal-setters. FDA + TGA broadly aligned.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Clinical Decision Support — exempt criteria met</div>
+            <div class="branch-action"><strong>Non-device CDS.</strong> All four FDA criteria must be satisfied: not analysing signals/images; intended for HCP; provides recommendations with rationale; HCP can independently review.</div>
+            <div class="branch-detail">21st Century Cures Act exemption. If <em>any</em> criterion fails, software is a device.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Electronic health record functions</div>
+            <div class="branch-action"><strong>Mostly exempt.</strong> Administrative, data display, transfer functions excluded; analytical/diagnostic functions are not.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">No exemption applies</div>
+            <div class="branch-action"><strong>SaMD regulated.</strong> Proceed to classification.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="critical-callout">
+        Disease-specific wellness claims (e.g. "manages diabetes" vs "tracks activity") move software from wellness into device territory. Marketing language is regulatory evidence.
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>01</div>
+        <div class="output-content">Intended use statement · Boundary determination memo · Exemption analysis (if claimed)</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 2: RISK CATEGORISATION ========== -->
+  <section class="stage" id="stage-2">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 02</div>
+      <h2 class="stage-title">IMDRF Risk Categorisation</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">SaMD risk is determined by two intersecting axes — the significance of information provided and the seriousness of the healthcare situation. The IMDRF matrix maps to local jurisdictions.</p>
+
+      <div class="matrix-container">
+        <div class="matrix-caption">IMDRF SaMD Risk Categories — Significance × Healthcare Situation</div>
+        <table class="matrix">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Inform<br>Clinical Mgmt</th>
+              <th>Drive<br>Clinical Mgmt</th>
+              <th>Treat or<br>Diagnose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="row-label">Non-serious<br>condition</td>
+              <td class="cat-1">I</td>
+              <td class="cat-1">I</td>
+              <td class="cat-2">II</td>
+            </tr>
+            <tr>
+              <td class="row-label">Serious<br>condition</td>
+              <td class="cat-1">I</td>
+              <td class="cat-2">II</td>
+              <td class="cat-3">III</td>
+            </tr>
+            <tr>
+              <td class="row-label">Critical<br>condition</td>
+              <td class="cat-2">II</td>
+              <td class="cat-3">III</td>
+              <td class="cat-4">IV</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 2.1</div>
+        <div class="decision-question">What is the IMDRF category, and how does it map locally?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Category I</div>
+            <div class="branch-action"><strong>Low risk.</strong> TGA Class I · FDA Class I (often 510(k)-exempt) · EU MDR Class I.</div>
+            <div class="branch-detail">Self-assessment routes common; lowest evidence burden.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Category II</div>
+            <div class="branch-action"><strong>Moderate risk.</strong> TGA Class IIa · FDA Class II (510(k)) · EU MDR Class IIa.</div>
+            <div class="branch-detail">Conformity assessment with QMS audit; clinical evaluation required.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Category III</div>
+            <div class="branch-action"><strong>High risk.</strong> TGA Class IIb · FDA Class II/III (510(k) or De Novo) · EU MDR Class IIb.</div>
+            <div class="branch-detail">Substantial clinical evidence; often new clinical investigation required.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Category IV</div>
+            <div class="branch-action"><strong>Highest risk.</strong> TGA Class III · FDA Class III (PMA) · EU MDR Class III.</div>
+            <div class="branch-detail">Full pre-market approval; pre-submission meeting essential; rare for SaMD but applies to high-risk autonomous diagnostic AI.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 2.2</div>
+        <div class="decision-question">Multi-jurisdiction strategy?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">FDA-first (US market priority)</div>
+            <div class="branch-action"><strong>510(k) or De Novo pathway.</strong> Identify predicate; build substantial equivalence argument. De Novo for novel low-to-moderate risk.</div>
+            <div class="branch-detail">Australian sponsors then use TGA Comparable Overseas Regulator pathway to leverage FDA clearance.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">EU-first (CE mark via Notified Body)</div>
+            <div class="branch-action"><strong>EU MDR conformity assessment.</strong> Software-specific Notified Body required; harder than pre-MDR.</div>
+            <div class="branch-detail">CE certificate accepted by TGA under CORP; supports global market access.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">AU-first (local launch)</div>
+            <div class="branch-action"><strong>TGA pathway direct.</strong> Australia-specific SaMD classification rules apply; suitable for AU-focused clinical workflow tools.</div>
+            <div class="branch-detail">TGA introduced dedicated SaMD classification rules in 2021; confirm current applicability.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>02</div>
+        <div class="output-content">IMDRF category determination · Jurisdiction class mapping · Predicate analysis (if 510(k)) · Regulatory strategy memo</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 3: AI/ML ========== -->
+  <section class="stage" id="stage-3">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 03</div>
+      <h2 class="stage-title">AI/ML-Specific Considerations</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">AI-enabled SaMD has its own regulatory layer — Good Machine Learning Practice, Predetermined Change Control Plans, and transparency requirements that don't apply to traditional rules-based software.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 3.1</div>
+        <div class="decision-question">Locked or adaptive algorithm?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Locked algorithm</div>
+            <div class="branch-action"><strong>Conventional SaMD pathway.</strong> Algorithm fixed at deployment; updates require new submission.</div>
+            <div class="branch-detail">Most currently cleared AI/ML devices are locked. Simpler regulatory model.</div>
+          </div>
+          <div class="branch path-x">
+            <div class="branch-condition">Adaptive / continuously learning</div>
+            <div class="branch-action"><strong>Predetermined Change Control Plan required.</strong> FDA framework — describe in advance what changes are anticipated, methods to implement, and how performance will be assessed.</div>
+            <div class="branch-detail">PCCP enables modifications without new 510(k); TGA developing parallel framework.</div>
+          </div>
+          <div class="branch path-x">
+            <div class="branch-condition">Periodic retraining</div>
+            <div class="branch-action"><strong>Hybrid approach.</strong> Locked between releases; PCCP governs retraining triggers and validation methodology.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 3.2</div>
+        <div class="decision-question">How will Good Machine Learning Practice be demonstrated?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Training data governance</div>
+            <div class="branch-action"><strong>Document dataset provenance, representativeness, demographic coverage.</strong> Address bias across age, sex, ethnicity, geography, disease severity.</div>
+            <div class="branch-detail">FDA/Health Canada/MHRA jointly published GMLP guiding principles — global expectation.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Train/test separation</div>
+            <div class="branch-action"><strong>Independent test set + external validation.</strong> Site-stratified holdout, temporal validation, prospective validation tier.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Performance monitoring infrastructure</div>
+            <div class="branch-action"><strong>Real-world performance pipeline.</strong> Drift detection, accuracy monitoring, edge-case logging from day one.</div>
+            <div class="branch-detail">Required for any AI/ML SaMD; mandatory for adaptive systems.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 3.3</div>
+        <div class="decision-question">Transparency obligations to users?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Algorithm transparency labelling</div>
+            <div class="branch-action"><strong>Disclose model type, training population, performance metrics, limitations, intended use boundaries.</strong></div>
+            <div class="branch-detail">FDA Transparency Principles + EU AI Act high-risk category obligations overlap.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Output explainability</div>
+            <div class="branch-action"><strong>Confidence scores, contributing features, or visual saliency.</strong> Especially important for "drive clinical management" and "treat/diagnose" categories.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="critical-callout">
+        EU AI Act applies in parallel to medical device regulation. AI/ML SaMD typically falls into "high-risk" category triggering additional conformity assessment, risk management, and fundamental rights impact assessment obligations.
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>03</div>
+        <div class="output-content">Algorithm description document · Training data justification · PCCP (if adaptive) · Bias assessment · Transparency documentation</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 4: SOFTWARE LIFECYCLE ========== -->
+  <section class="stage" id="stage-4">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 04</div>
+      <h2 class="stage-title">Software Lifecycle & QMS</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">SaMD must demonstrate engineering rigour through documented lifecycle processes. IEC 62304 and ISO 13485 form the backbone.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 4.1</div>
+        <div class="decision-question">What software safety classification (IEC 62304)?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Class A — no injury possible</div>
+            <div class="branch-action"><strong>Minimal lifecycle documentation.</strong> Basic SDLC, version control, change management.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Class B — non-serious injury possible</div>
+            <div class="branch-action"><strong>Architecture documentation + unit testing required.</strong> Detailed design, integration testing, risk traceability.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Class C — death or serious injury possible</div>
+            <div class="branch-action"><strong>Full IEC 62304 compliance.</strong> Detailed architecture, software item segregation, full V&amp;V, formal change control.</div>
+            <div class="branch-detail">Most SaMD in IMDRF Category III/IV. Significant documentation burden.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 4.2</div>
+        <div class="decision-question">Quality Management System approach?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">ISO 13485 certified QMS</div>
+            <div class="branch-action"><strong>Standard global pathway.</strong> Accepted by TGA, EU, Health Canada, Japan, UK.</div>
+            <div class="branch-detail">Often the first major investment for a SaMD startup; 6–12 months to build and certify.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">MDSAP certified QMS</div>
+            <div class="branch-action"><strong>Multi-jurisdiction single audit.</strong> Covers AU, US, Brazil, Canada, Japan in one audit cycle.</div>
+            <div class="branch-detail">Higher upfront cost but lower long-term audit burden for global SaMD.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">QMS via contract manufacturer</div>
+            <div class="branch-action"><strong>Borrowed compliance.</strong> Acceptable for early stage; weak for valuation and licensing.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>04</div>
+        <div class="output-content">IEC 62304 software lifecycle file · ISO 14971 risk management file · ISO 13485 QMS · Software architecture · V&amp;V documentation</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 5: CYBERSECURITY ========== -->
+  <section class="stage" id="stage-5">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 05</div>
+      <h2 class="stage-title">Cybersecurity & Data</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">Non-optional for SaMD. FDA refuses to consider submissions lacking cybersecurity documentation; TGA aligned with similar expectations.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 5.1</div>
+        <div class="decision-question">Deployment architecture?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Cloud-hosted (SaaS)</div>
+            <div class="branch-action"><strong>Shared responsibility model.</strong> Document cloud provider security; demonstrate tenant isolation, encryption at rest and in transit, access logging.</div>
+            <div class="branch-detail">Australian data residency (Privacy Act, My Health Records Act) may constrain provider choice.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">On-premise hospital deployment</div>
+            <div class="branch-action"><strong>Hospital IT integration.</strong> Conform to local cybersecurity requirements (state health, LHD); document interoperability via HL7/FHIR.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Mobile / patient-facing</div>
+            <div class="branch-action"><strong>Device-level security + biometric authentication.</strong> Threat surface includes the patient's device; assume compromise possible.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 5.2</div>
+        <div class="decision-question">Cybersecurity submission documentation?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Threat modelling (STRIDE or similar)</div>
+            <div class="branch-action"><strong>Document threats, vulnerabilities, mitigations.</strong> Required by FDA premarket cybersecurity guidance; expected by TGA.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Software Bill of Materials (SBOM)</div>
+            <div class="branch-action"><strong>Enumerate all components and dependencies.</strong> Track CVE exposure across third-party libraries; required for FDA cyber submissions.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Vulnerability management plan</div>
+            <div class="branch-action"><strong>Post-market patch and disclosure process.</strong> Coordinated vulnerability disclosure; defined SLAs for critical patches.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 5.3</div>
+        <div class="decision-question">Privacy and data protection?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Australian Privacy Principles + state health records</div>
+            <div class="branch-action"><strong>Privacy Impact Assessment.</strong> Cover collection, storage, secondary use, breach notification under Notifiable Data Breaches scheme.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Multi-jurisdiction (GDPR, HIPAA, etc.)</div>
+            <div class="branch-action"><strong>Layered compliance.</strong> GDPR for EU users; HIPAA for US PHI; map cross-border data flow restrictions.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>05</div>
+        <div class="output-content">Threat model · SBOM · Cybersecurity risk assessment · PIA · Vulnerability disclosure policy · Incident response plan</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 6: CLINICAL EVALUATION ========== -->
+  <section class="stage" id="stage-6">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 06</div>
+      <h2 class="stage-title">Clinical Evaluation (IMDRF Three-Pillar)</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">SaMD clinical evaluation has three distinct layers — valid clinical association, analytical validation, and clinical validation. Each requires different evidence.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 6.1 · Pillar 1</div>
+        <div class="decision-question">Valid clinical association — is the output meaningful for the medical purpose?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Established association</div>
+            <div class="branch-action"><strong>Literature-based justification.</strong> Cite peer-reviewed evidence linking the parameter measured to the clinical condition.</div>
+            <div class="branch-detail">Example: heart rate variability and arrhythmia risk; well-established physiological link.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Novel association</div>
+            <div class="branch-action"><strong>Original clinical study required.</strong> Generate evidence that the measured signal is genuinely associated with the target condition.</div>
+            <div class="branch-detail">Common for novel AI biomarkers; substantial cost and timeline addition.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 6.2 · Pillar 2</div>
+        <div class="decision-question">Analytical validation — does the software correctly process input to output?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Verification testing</div>
+            <div class="branch-action"><strong>Test against known inputs.</strong> Synthetic and curated real datasets; sensitivity, specificity, accuracy versus ground truth.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Performance characterisation</div>
+            <div class="branch-action"><strong>Edge case and stress testing.</strong> Input quality variation, signal noise, missing data, out-of-distribution detection.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 6.3 · Pillar 3</div>
+        <div class="decision-question">Clinical validation — does the SaMD achieve the intended clinical outcome in real use?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Retrospective real-world data</div>
+            <div class="branch-action"><strong>Acceptable for some Category I/II.</strong> Curated historical datasets from intended-use population.</div>
+            <div class="branch-detail">Watch for selection bias and ground-truth quality issues.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Prospective observational</div>
+            <div class="branch-action"><strong>Standard for Category II/III.</strong> Deploy in clinical setting; measure performance against reference standard.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Prospective interventional / RCT</div>
+            <div class="branch-action"><strong>Required for Category III/IV.</strong> Compare clinical outcomes between SaMD-supported and standard-of-care arms.</div>
+            <div class="branch-detail">Australian CTN pathway applies; HREC + governance as per device trials.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>06</div>
+        <div class="output-content">Clinical Evaluation Report covering all three pillars · Performance metrics by sub-population · Benchmarking versus predicate or standard of care</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 7: SUBMISSION ========== -->
+  <section class="stage" id="stage-7">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 07</div>
+      <h2 class="stage-title">Regulatory Submission Strategy</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">Submission route depends on novelty, predicate availability, and target market sequence.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 7.1</div>
+        <div class="decision-question">FDA pathway?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">510(k) with strong predicate</div>
+            <div class="branch-action"><strong>Fastest path.</strong> Demonstrate substantial equivalence to legally marketed predicate device.</div>
+            <div class="branch-detail">3–9 months typical; preferred for incremental SaMD.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">De Novo (no suitable predicate, low–moderate risk)</div>
+            <div class="branch-action"><strong>Establishes new classification.</strong> Creates predicate for future devices in category.</div>
+            <div class="branch-detail">9–18 months; common for novel AI/ML SaMD without prior cleared analogue.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">PMA (Class III)</div>
+            <div class="branch-action"><strong>Highest burden.</strong> Full clinical evidence; rare for SaMD but applies to high-risk autonomous diagnostic AI.</div>
+          </div>
+          <div class="branch path-x">
+            <div class="branch-condition">Breakthrough Device Designation</div>
+            <div class="branch-action"><strong>Accelerated FDA review.</strong> Applies if SaMD addresses unmet need for serious/life-threatening condition.</div>
+            <div class="branch-detail">Worth pursuing for novel diagnostic AI; secures FDA engagement.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 7.2</div>
+        <div class="decision-question">Pre-submission engagement?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">FDA Q-Submission</div>
+            <div class="branch-action"><strong>Pre-submission meeting.</strong> Free; clarifies expected evidence, classification, test methods.</div>
+            <div class="branch-detail">Essential for Category III/IV and novel AI/ML; saves cycles later.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">TGA pre-submission meeting</div>
+            <div class="branch-action"><strong>Engage for Class IIb+ or novel SaMD.</strong> Confirm classification, clinical evidence expectations, conformity assessment route.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">EU MDR — early Notified Body engagement</div>
+            <div class="branch-action"><strong>Book NB capacity early.</strong> Software-specific NB capacity is constrained; can delay launch 12+ months.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>07</div>
+        <div class="output-content">Pre-sub meeting minutes · Submission dossier (510(k) / De Novo / Technical File / ARTG) · Predicate comparison · Performance testing summary</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 8: POST-MARKET ========== -->
+  <section class="stage" id="stage-8">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 08</div>
+      <h2 class="stage-title">Post-Market & Change Management</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">SaMD post-market is more demanding than hardware — software changes are frequent, AI models drift, and real-world performance must be monitored continuously.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 8.1</div>
+        <div class="decision-question">Change control approach?</div>
+        <div class="branches">
+          <div class="branch path-c">
+            <div class="branch-condition">Each significant change → new submission</div>
+            <div class="branch-action"><strong>Traditional path.</strong> Modifications affecting safety/effectiveness trigger new 510(k) or substantial change notification.</div>
+            <div class="branch-detail">Slow; incompatible with modern software release cadence.</div>
+          </div>
+          <div class="branch path-x">
+            <div class="branch-condition">PCCP-governed continuous improvement</div>
+            <div class="branch-action"><strong>Pre-authorised modification envelope.</strong> Make changes within PCCP scope without new submission; report at periodic intervals.</div>
+            <div class="branch-detail">Game-changer for AI/ML SaMD; only viable if PCCP was filed initially.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 8.2</div>
+        <div class="decision-question">Performance monitoring infrastructure?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Passive — adverse event reporting only</div>
+            <div class="branch-action"><strong>Standard PMS.</strong> TGA Medical Device Incident Reports; FDA MDR submissions.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Active — telemetry and outcomes</div>
+            <div class="branch-action"><strong>Embedded performance monitoring.</strong> Real-world accuracy, drift detection, sub-population disparities, near-miss logging.</div>
+            <div class="branch-detail">Required for adaptive AI; best practice for all SaMD.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Registry integration</div>
+            <div class="branch-action"><strong>Link to disease registry.</strong> Long-term outcome capture supports reimbursement, label expansion, scientific publication.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 8.3</div>
+        <div class="decision-question">Reimbursement strategy?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Procedure-linked (clinician uses SaMD)</div>
+            <div class="branch-action"><strong>MBS item via MSAC.</strong> Health economic evaluation comparing SaMD-supported vs standard workflow.</div>
+            <div class="branch-detail">No dedicated AI/SaMD MBS item category yet — pioneers shape the precedent.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Direct sale to health service</div>
+            <div class="branch-action"><strong>LHD / hospital procurement.</strong> Value-based contracting; outcome guarantees increasingly common.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Consumer subscription</div>
+            <div class="branch-action"><strong>B2C model.</strong> Bypasses reimbursement but limits adoption depth; suits wellness-adjacent SaMD.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Private health insurer partnership</div>
+            <div class="branch-action"><strong>Insurer-funded deployment.</strong> Bupa, Medibank, HCF, nib innovation programs fund SaMD for population health benefit.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>08</div>
+        <div class="output-content">Post-Market Surveillance Plan · Performance monitoring dashboard · PCCP execution log · PSUR · Reimbursement listing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTNOTE ========== -->
+  <div class="footnote">
+    <div class="footnote-label">SaMD Practitioner's Note</div>
+    <p class="footnote-text">SaMD diverges from hardware devices in three structural ways that change strategy fundamentally. <strong>First</strong>, the boundary question is genuinely contested — many products that founders consider "not really a device" turn out to be regulated, and vice versa; <em>get a regulatory opinion before you build, not after</em>. <strong>Second</strong>, the IMDRF risk matrix often produces a higher classification than founders expect because "drive clinical management" of a "serious condition" is the default for most useful clinical software. <strong>Third</strong>, AI/ML adds an entire parallel regulatory stack (GMLP, PCCP, transparency, bias assessment, EU AI Act) that hardware devices simply don't face — and getting the PCCP wrong at initial submission forecloses continuous improvement for the product's entire commercial life. The Australian advantage: TGA accepts FDA-cleared SaMD via Comparable Overseas Regulator pathway, so for global ambitions, FDA-first is often optimal even for AU-founded teams.</p>
+  </div>
+
+</div>
+
+<script>
+  function toggleStage(header) {
+    const stage = header.closest('.stage');
+    stage.classList.toggle('collapsed');
+  }
+
+  function expandAll() {
+    document.querySelectorAll('.stage').forEach(s => s.classList.remove('collapsed'));
+  }
+
+  function collapseAll() {
+    document.querySelectorAll('.stage').forEach(s => s.classList.add('collapsed'));
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn  = document.getElementById('themeBtn');
+    if (html.getAttribute('data-theme') === 'light') {
+      html.removeAttribute('data-theme');
+      btn.textContent = '☀ Light mode';
+    } else {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '☾ Dark mode';
+    }
+  }
+</script>
+</body>
+</html>

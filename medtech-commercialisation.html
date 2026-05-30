@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Medical Device Commercialisation — Logic Tree (Australia)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,800&family=Newsreader:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ── Dark mode (default) ── */
+  :root {
+    --paper:      #0D0C0A;
+    --paper-deep: #181614;
+    --paper-card: #201D1A;
+    --ink:        #EDE8DF;
+    --ink-soft:   #B8B0A6;
+    --ink-muted:  #6E6860;
+    --rule:       #2E2B27;
+    --rule-soft:  #231F1C;
+    --accent:     #CF6B42;
+    --accent-soft:#E0926A;
+    --decision:   #C99A2E;
+    --pathway-a:  #6EAB5D;
+    --pathway-b:  #C99A2E;
+    --pathway-c:  #B85555;
+    --output:     #3D7A9C;
+  }
+
+  /* ── Light mode (toggled) ── */
+  html[data-theme="light"] {
+    --paper:      #F4EFE3;
+    --paper-deep: #EBE3D1;
+    --paper-card: #E5DCC4;
+    --ink:        #1C1814;
+    --ink-soft:   #3D362C;
+    --ink-muted:  #6B6354;
+    --rule:       #C9BFA8;
+    --rule-soft:  #DDD4BD;
+    --accent:     #B04A2A;
+    --accent-soft:#D77A55;
+    --decision:   #8B6914;
+    --pathway-a:  #5C7A4F;
+    --pathway-b:  #8B6914;
+    --pathway-c:  #7B3F3F;
+    --output:     #2C4A5C;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    transition: background 0.35s ease, color 0.35s ease;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    transition: background 0.35s ease, color 0.35s ease;
+    background-image:
+      radial-gradient(circle at 20% 30%, rgba(207, 107, 66, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(61, 122, 156, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 48px 24px 120px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ============ HEADER ============ */
+
+  header {
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+    position: relative;
+  }
+
+  header::after {
+    content: "";
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 80px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(36px, 6vw, 56px);
+    line-height: 1.02;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-variation-settings: "opsz" 144;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--ink-soft);
+    max-width: 600px;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-top: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+
+  .meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .meta span::before {
+    content: "■";
+    color: var(--accent);
+    font-size: 8px;
+  }
+
+  /* ============ LEGEND ============ */
+
+  .legend {
+    background: var(--paper-deep);
+    border: 1px solid var(--rule);
+    padding: 20px 24px;
+    margin-bottom: 56px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  .legend-marker {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    border-radius: 2px;
+  }
+
+  .legend-marker.decision { background: var(--decision); }
+  .legend-marker.pathway-a { background: var(--pathway-a); }
+  .legend-marker.pathway-b { background: var(--pathway-b); }
+  .legend-marker.pathway-c { background: var(--pathway-c); }
+  .legend-marker.output { background: var(--output); }
+
+  .legend-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  /* ============ STAGE ============ */
+
+  .stage {
+    margin-bottom: 64px;
+    position: relative;
+  }
+
+  .stage-header {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 24px;
+    align-items: baseline;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 16px;
+    margin-bottom: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .stage-header:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .stage-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+  }
+
+  .stage-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: clamp(22px, 3.5vw, 30px);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 60;
+  }
+
+  .stage-toggle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--ink-muted);
+    transition: transform 0.3s ease;
+    user-select: none;
+  }
+
+  .stage.collapsed .stage-toggle {
+    transform: rotate(-90deg);
+  }
+
+  .stage.collapsed .stage-body {
+    display: none;
+  }
+
+  .stage-intro {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 300;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 28px;
+    padding-left: 104px;
+    max-width: 700px;
+  }
+
+  @media (max-width: 600px) {
+    .stage-intro {
+      padding-left: 0;
+    }
+    .stage-header {
+      grid-template-columns: 1fr auto;
+    }
+    .stage-number {
+      grid-column: 1 / -1;
+      margin-bottom: -8px;
+    }
+  }
+
+  /* ============ DECISION BLOCK ============ */
+
+  .decision {
+    margin-bottom: 32px;
+    padding-left: 24px;
+    border-left: 2px solid var(--rule);
+    position: relative;
+  }
+
+  .decision::before {
+    content: "";
+    position: absolute;
+    left: -7px;
+    top: 8px;
+    width: 12px;
+    height: 12px;
+    background: var(--paper);
+    border: 2px solid var(--decision);
+    border-radius: 50%;
+  }
+
+  .decision-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--decision);
+    margin-bottom: 6px;
+    font-weight: 600;
+  }
+
+  .decision-question {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 19px;
+    line-height: 1.3;
+    color: var(--ink);
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 36;
+  }
+
+  /* ============ BRANCH ============ */
+
+  .branches {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 16px;
+    margin-left: 8px;
+  }
+
+  .branch {
+    position: relative;
+    padding: 14px 18px 14px 28px;
+    background: var(--paper-card);
+    border-left: 3px solid var(--pathway-a);
+    transition: all 0.2s ease;
+    cursor: default;
+  }
+
+  .branch:hover {
+    background: var(--paper-deep);
+    transform: translateX(2px);
+  }
+
+  .branch.path-a { border-left-color: var(--pathway-a); }
+  .branch.path-b { border-left-color: var(--pathway-b); }
+  .branch.path-c { border-left-color: var(--pathway-c); }
+
+  .branch::before {
+    content: "→";
+    position: absolute;
+    left: 10px;
+    top: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--ink-muted);
+    font-size: 13px;
+  }
+
+  .branch-condition {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--ink-muted);
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+
+  .branch.path-a .branch-condition { color: var(--pathway-a); }
+  .branch.path-b .branch-condition { color: var(--pathway-b); }
+  .branch.path-c .branch-condition { color: var(--pathway-c); }
+
+  .branch-action {
+    font-family: 'Newsreader', serif;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--ink);
+  }
+
+  .branch-action strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .branch-detail {
+    font-size: 13px;
+    color: var(--ink-muted);
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ============ SUB-BRANCH ============ */
+
+  .sub-branches {
+    margin-top: 10px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sub-branch {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft);
+    padding: 4px 0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .sub-branch::before {
+    content: "└";
+    color: var(--rule);
+    font-weight: bold;
+  }
+
+  /* ============ OUTPUT BOX ============ */
+
+  .output-box {
+    margin-top: 24px;
+    padding: 16px 20px;
+    background: var(--output);
+    color: var(--paper);
+    border-radius: 2px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .output-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--paper-deep);
+    flex-shrink: 0;
+    margin-top: 2px;
+    opacity: 0.85;
+  }
+
+  .output-content {
+    font-family: 'Newsreader', serif;
+    font-size: 15px;
+    line-height: 1.4;
+    font-style: italic;
+    font-weight: 300;
+  }
+
+  /* ============ CONNECTOR ============ */
+
+  .connector {
+    height: 48px;
+    width: 2px;
+    background: var(--rule);
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .connector::after {
+    content: "▼";
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: var(--rule);
+    font-size: 10px;
+  }
+
+  /* ============ FOOTER NOTE ============ */
+
+  .footnote {
+    margin-top: 80px;
+    padding: 32px;
+    background: var(--paper-deep);
+    border-left: 4px solid var(--accent);
+  }
+
+  .footnote-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .footnote-text {
+    font-family: 'Newsreader', serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-weight: 300;
+  }
+
+  .footnote-text em {
+    font-style: italic;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* ============ NAVIGATION ============ */
+
+  .stage-nav {
+    position: sticky;
+    top: 16px;
+    background: rgba(13, 12, 10, 0.88);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--rule);
+    padding: 12px 16px;
+    margin-bottom: 40px;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.4);
+  }
+
+  .stage-nav a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    padding: 4px 8px;
+    transition: all 0.2s;
+    border-bottom: 1px solid transparent;
+  }
+
+  .stage-nav a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  .nav-label {
+    color: var(--ink);
+    font-weight: 600;
+    margin-right: 8px;
+  }
+
+  /* ============ CONTROLS ============ */
+
+  .controls {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .control-btn {
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    color: var(--ink-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+  }
+
+  .control-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(207, 107, 66, 0.06);
+  }
+
+  .theme-toggle {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--rule);
+    padding: 8px 14px;
+    color: var(--ink-muted);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  @media (max-width: 600px) {
+    .container { padding: 32px 16px 80px; }
+    .stage-intro { font-size: 16px; }
+    .decision { padding-left: 20px; }
+    .branch { padding: 12px 14px 12px 26px; }
+    .output-box { flex-direction: column; gap: 8px; }
+  }
+
+  .tab-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    gap: 2px;
+    background: var(--paper-deep);
+    border-bottom: 1px solid var(--rule);
+    padding: 0 24px;
+  }
+  .tab-nav__item {
+    padding: 10px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    color: var(--ink-muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .tab-nav__item:hover {
+    color: var(--ink-soft);
+  }
+  .tab-nav__item--active {
+    color: var(--accent-soft);
+    border-bottom-color: var(--accent);
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav class="tab-nav">
+  <a class="tab-nav__item tab-nav__item--active" href="medtech-commercialisation.html">Medtech Commercialisation</a>
+  <a class="tab-nav__item" href="samd.html">Software as a Medical Device</a>
+</nav>
+
+<div class="container">
+
+  <header>
+    <h1>Medical Device<br><em>Commercialisation</em><br>Pathway</h1>
+    <p class="subtitle">A logic tree for medical device commercialisation, from early-stage research through regulatory approval and market entry.</p>
+  </header>
+
+  <div class="legend">
+    <div class="legend-item">
+      <div class="legend-marker decision"></div>
+      <div><span class="legend-label">Decision</span><div>Branch point requiring strategic choice</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-a"></div>
+      <div><span class="legend-label">Preferred path</span><div>Lower friction, faster timeline</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-b"></div>
+      <div><span class="legend-label">Conditional path</span><div>Acceptable with trade-offs</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker pathway-c"></div>
+      <div><span class="legend-label">High-friction path</span><div>Use only if necessary</div></div>
+    </div>
+    <div class="legend-item">
+      <div class="legend-marker output"></div>
+      <div><span class="legend-label">Stage output</span><div>Required artefact to progress</div></div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="control-btn" onclick="expandAll()">Expand all</button>
+    <button class="control-btn" onclick="collapseAll()">Collapse all</button>
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn">☀ Light mode</button>
+  </div>
+
+  <nav class="stage-nav">
+    <span class="nav-label">Jump to:</span>
+    <a href="#stage-1">01 Disclosure</a>
+    <a href="#stage-2">02 IP</a>
+    <a href="#stage-3">03 Pathway</a>
+    <a href="#stage-4">04 TGA</a>
+    <a href="#stage-5">05 Evidence</a>
+    <a href="#stage-6">06 Trial Setup</a>
+    <a href="#stage-7">07 Recruitment</a>
+    <a href="#stage-8">08 Market Access</a>
+  </nav>
+
+  <!-- ========== STAGE 1 ========== -->
+  <section class="stage" id="stage-1">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 01</div>
+      <h2 class="stage-title">Invention Disclosure & Inventorship</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">Capture the invention before novelty is destroyed; establish ownership before equity is contested.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 1.1</div>
+        <div class="decision-question">Has the invention been publicly disclosed?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">No prior disclosure</div>
+            <div class="branch-action"><strong>Standard provisional pathway.</strong> File IP Australia provisional within weeks.</div>
+            <div class="branch-detail">Optimal — full novelty preserved across all jurisdictions.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Disclosed &lt; 12 months ago</div>
+            <div class="branch-action"><strong>Grace period rescue.</strong> File provisional urgently in AU + US (both have grace periods).</div>
+            <div class="branch-detail">EU, China, Japan novelty already lost — narrows geographic strategy.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Disclosed &gt; 12 months ago</div>
+            <div class="branch-action"><strong>Patent route closed.</strong> Pivot to trade secret + first-mover + design rights.</div>
+            <div class="branch-detail">Reframe commercialisation around know-how licensing or service model.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 1.2</div>
+        <div class="decision-question">Who owns the IP?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Sole university</div>
+            <div class="branch-action"><strong>Apply standard IP policy.</strong> Inventor share per institutional schedule (Go8 averages 30–50% net).</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Industry-funded research</div>
+            <div class="branch-action"><strong>Audit funding agreement.</strong> Check MTA, CRA, contract research terms for assignment or option clauses.</div>
+            <div class="branch-detail">CRC-P projects have prescribed background/foreground IP rules.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Multi-institutional</div>
+            <div class="branch-action"><strong>Inter-Institutional Agreement (IIA).</strong> Negotiate lead institution, cost share, revenue split before filing.</div>
+            <div class="branch-detail">KCA templates available; resolve before PCT to avoid delays.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>01</div>
+        <div class="output-content">Signed invention disclosure · Ownership map · Filing strategy memo · IIA (if applicable)</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 2 ========== -->
+  <section class="stage" id="stage-2">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 02</div>
+      <h2 class="stage-title">IP Protection Strategy</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">Patents are necessary but rarely sufficient for devices — layer in designs, marks, and trade secrets.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 2.1</div>
+        <div class="decision-question">What patent geography is justified?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Provisional → PCT → Major markets</div>
+            <div class="branch-action"><strong>Standard high-value path.</strong> AU provisional (~$110) → PCT at 12mo (~$5K) → US/EU/JP/CN national phase at 30mo ($30–100K).</div>
+            <div class="branch-detail">Default for any device with global market ambition.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Provisional → AU/US direct only</div>
+            <div class="branch-action"><strong>Capital-constrained path.</strong> Skip PCT; file direct in AU and US at 12 months.</div>
+            <div class="branch-detail">Cheaper but forecloses EU/Asia. Acceptable for niche devices.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Trade secret only</div>
+            <div class="branch-action"><strong>Defensive secrecy.</strong> Document know-how, restrict access, rely on first-mover.</div>
+            <div class="branch-detail">Viable for manufacturing processes; risky for product features.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 2.2</div>
+        <div class="decision-question">What complementary IP applies?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Distinctive form factor or UI</div>
+            <div class="branch-action"><strong>File registered designs.</strong> IP Australia design rights are fast (~6 months) and cheap.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Product name viable</div>
+            <div class="branch-action"><strong>Trade mark filing.</strong> AU TM + Madrid Protocol for international.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Software or AI model</div>
+            <div class="branch-action"><strong>Copyright + trade secret layer.</strong> Patent only if technical effect is clear (challenging for AI/SaMD).</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>02</div>
+        <div class="output-content">IP portfolio plan · FTO opinion · Filing cost projection · Trade secret register</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 3 ========== -->
+  <section class="stage" id="stage-3">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 03</div>
+      <h2 class="stage-title">Commercialisation Pathway Selection</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">License, spin-out, or hybrid — driven by capital intensity, team availability, and market reachability.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 3.1</div>
+        <div class="decision-question">License or spin-out?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">License to incumbent</div>
+            <div class="branch-action"><strong>Lower capital, lower upside.</strong> Target AU acquirers (Cochlear, ResMed, Nanosonics, PolyNovo, Compumedics) or international (Medtronic, J&amp;J MedTech, Stryker, B. Braun).</div>
+            <div class="branch-detail">Royalties typically 3–8% finished device; upfronts $50K–$2M; milestones tied to TGA/FDA clearance.</div>
+            <div class="sub-branches">
+              <div class="sub-branch">AU strategic partner — domestic supply chain advantages</div>
+              <div class="sub-branch">International MNC — global reach but slower negotiation</div>
+            </div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Spin-out company</div>
+            <div class="branch-action"><strong>Higher upside, higher capital need.</strong> Requires founder CEO, scientific founder retention strategy, board, $2–10M seed.</div>
+            <div class="branch-detail">University takes equity (commonly 5–25% post-investment) in lieu of upfront licence fees.</div>
+            <div class="sub-branches">
+              <div class="sub-branch">BTF funds — Brandon Capital, OneVentures, BioScience Managers</div>
+              <div class="sub-branch">Accelerators — MedTech Actuator, Cicada Innovations, ANDHealth+</div>
+              <div class="sub-branch">Strategic angels — sector-specific clinician investors</div>
+            </div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Hybrid: option + license</div>
+            <div class="branch-action"><strong>Stage-gated.</strong> Industry pays option fee, funds development; converts to licence on milestone.</div>
+            <div class="branch-detail">Reduces university risk; common for early-stage devices needing co-development.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 3.2</div>
+        <div class="decision-question">Non-dilutive capital sequencing?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Pre-clinical / proof of concept</div>
+            <div class="branch-action"><strong>MRFF BioMedTech Horizons + R&amp;D Tax Incentive (43.5% refundable).</strong></div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Early clinical</div>
+            <div class="branch-action"><strong>MRFF Frontier · NHMRC Development · CRC-P · State funds (NSW MDF, Vic BioMedical).</strong></div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Scale & market entry</div>
+            <div class="branch-action"><strong>Industry Growth Program · Export Market Development Grants · BTF Series A/B.</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>03</div>
+        <div class="output-content">Commercialisation strategy memo · Term sheet (if licence) or shareholders' agreement (if spin-out) · Funding roadmap</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 4 ========== -->
+  <section class="stage" id="stage-4">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 04</div>
+      <h2 class="stage-title">TGA Regulatory Pathway</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">Classification determines everything downstream — evidence burden, timeline, cost, post-market obligations.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 4.1</div>
+        <div class="decision-question">What TGA classification applies?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Class I (low risk)</div>
+            <div class="branch-action"><strong>Self-assessment.</strong> Sponsor declares conformity; minimal TGA involvement.</div>
+            <div class="branch-detail">Non-sterile, non-measuring devices. ~weeks to ARTG inclusion.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Class IIa / IIb (moderate risk)</div>
+            <div class="branch-action"><strong>Conformity assessment by TGA or Notified Body.</strong> ISO 13485 QMS mandatory.</div>
+            <div class="branch-detail">Most diagnostic and many therapeutic devices. ~6–18 months.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Class III / AIMD (high risk)</div>
+            <div class="branch-action"><strong>Full TGA conformity assessment.</strong> Clinical investigation typically required; pre-submission meeting strongly advised.</div>
+            <div class="branch-detail">Implantables, life-supporting. 18–36 months from submission.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Software as Medical Device</div>
+            <div class="branch-action"><strong>Apply TGA SaMD classification rules.</strong> Risk-based; AI/ML adaptive software has additional guidance.</div>
+            <div class="branch-detail">Boundary/exclusion rules updated periodically — confirm currency.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 4.2</div>
+        <div class="decision-question">Can overseas evidence be leveraged?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">FDA clearance or CE certificate held</div>
+            <div class="branch-action"><strong>Comparable Overseas Regulator pathway.</strong> TGA accepts evidence with abridged assessment.</div>
+            <div class="branch-detail">Single fastest route to ARTG; typical for AU subsidiaries of global companies.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">MDSAP audit in hand</div>
+            <div class="branch-action"><strong>QMS evidence accepted.</strong> Reduces TGA on-site audit burden.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">No overseas evidence</div>
+            <div class="branch-action"><strong>Full TGA pathway.</strong> Build technical file, clinical evaluation, QMS from scratch.</div>
+            <div class="branch-detail">Plan parallel FDA/CE filings to capture downstream economies.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>04</div>
+        <div class="output-content">Classification rationale · Conformity assessment plan · Technical file structure · ARTG sponsor strategy</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 5 ========== -->
+  <section class="stage" id="stage-5">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 05</div>
+      <h2 class="stage-title">Clinical Evidence Strategy</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">A clinical evaluation is mandatory; a clinical investigation may not be — choose carefully.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 5.1</div>
+        <div class="decision-question">Is a new clinical investigation needed?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Substantial equivalence demonstrable</div>
+            <div class="branch-action"><strong>Literature-based clinical evaluation.</strong> No new trial; build CER from published data on predicate.</div>
+            <div class="branch-detail">Common for Class I/IIa devices with established precedents.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Novel mechanism or claim</div>
+            <div class="branch-action"><strong>Feasibility study + pivotal study.</strong> Two-stage clinical investigation under ISO 14155.</div>
+            <div class="branch-detail">Standard for Class IIb with new indication.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">First-in-human or implantable</div>
+            <div class="branch-action"><strong>Pre-submission meeting + staged trials.</strong> Engage TGA before protocol finalisation.</div>
+            <div class="branch-detail">Class III default — clinical investigation almost always required.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 5.2</div>
+        <div class="decision-question">CTN or CTA scheme?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">CTN — Clinical Trial Notification</div>
+            <div class="branch-action"><strong>Default fast path.</strong> HREC approves; sponsor notifies TGA; trial starts.</div>
+            <div class="branch-detail">~95% of AU device trials use CTN. Days to weeks from HREC approval.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">CTA — Clinical Trial Approval</div>
+            <div class="branch-action"><strong>TGA reviews and approves.</strong> Required when HREC requests TGA opinion on high-risk unapproved device.</div>
+            <div class="branch-detail">Months to approval; rare for devices but used for first-in-human implants.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>05</div>
+        <div class="output-content">Clinical Evaluation Plan · Clinical Investigation Plan (ISO 14155) · Investigator's Brochure · Statistical Analysis Plan</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 6 ========== -->
+  <section class="stage" id="stage-6">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 06</div>
+      <h2 class="stage-title">Trial Setup — Ethics & Governance</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">Where most academic device trials lose 3–6 months. Plan ethics and governance in parallel, not sequence.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 6.1</div>
+        <div class="decision-question">Single-site or multi-site?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Single-site feasibility</div>
+            <div class="branch-action"><strong>One HREC submission.</strong> Use sponsor institution's HREC; fastest path.</div>
+            <div class="branch-detail">Appropriate for first-in-human or small device validation studies.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Multi-site (NMA-eligible)</div>
+            <div class="branch-action"><strong>National Mutual Acceptance.</strong> Single lead HREC reviews; other public sites accept.</div>
+            <div class="branch-detail">Lead HREC choice matters — Alfred, Melbourne Health, RPA, RBWH, SA Health all have device experience.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Multi-site (mixed public/private)</div>
+            <div class="branch-action"><strong>Hybrid pathway.</strong> NMA for public sites; separate HREC for private hospitals.</div>
+            <div class="branch-detail">Bellberry HREC commonly used for private/commercial trials.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 6.2</div>
+        <div class="decision-question">Site Specific Assessment (SSA / RGO) approach?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Parallel submission</div>
+            <div class="branch-action"><strong>Submit SSA in parallel with ethics.</strong> Saves 4–8 weeks per site.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Sequential submission</div>
+            <div class="branch-action"><strong>Wait for ethics first.</strong> Default but slower; only acceptable when ethics outcome uncertain.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>06</div>
+        <div class="output-content">HREC approval letter · RGO authorisations · Site indemnity &amp; insurance · Clinical Trial Research Agreements · Investigator initiation packs</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 7 ========== -->
+  <section class="stage" id="stage-7">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 07</div>
+      <h2 class="stage-title">Patient Recruitment</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">The silent killer of Australian device trials. Population is small, dispersed, and competed-for at specialist centres.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 7.1</div>
+        <div class="decision-question">What recruitment channels fit the indication?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Specialist clinic flow</div>
+            <div class="branch-action"><strong>Embed in existing referral pathway.</strong> Highest yield for specialty devices (cardiac, oncology, orthopaedic).</div>
+            <div class="branch-detail">Target LHDs with high patient volume + research-friendly directors.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Patient registry partnership</div>
+            <div class="branch-action"><strong>Engage disease registries early.</strong> AOA NJRR (orthopaedic), ANZICS (ICU), ANZDATA (renal), Cancer Registries.</div>
+            <div class="branch-detail">Registry-embedded trials accelerate recruitment dramatically.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">GP / primary care referral</div>
+            <div class="branch-action"><strong>Engage PHN networks + research-active practices.</strong> Slower per-site yield; useful for chronic disease devices.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Consumer / community recruitment</div>
+            <div class="branch-action"><strong>Partner with disease foundations.</strong> Heart Foundation, Diabetes Australia, Lung Foundation, Stroke Foundation research networks.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Social media / direct-to-consumer</div>
+            <div class="branch-action"><strong>HREC-approved digital campaigns.</strong> Requires pre-approved creative; strict targeting rules.</div>
+            <div class="branch-detail">High variance in conversion; useful for awareness-driven indications.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 7.2</div>
+        <div class="decision-question">Special population considerations?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Aboriginal &amp; Torres Strait Islander participants</div>
+            <div class="branch-action"><strong>Engage AH&amp;MRC (NSW) / AHCSA (SA) / state equivalents.</strong> Co-design from protocol stage; specific ethics review.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Paediatric population</div>
+            <div class="branch-action"><strong>Quaternary centre strategy.</strong> RCH Melbourne, SCH Sydney, QCH Brisbane, WCH Adelaide, PCH Perth.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Rare disease</div>
+            <div class="branch-action"><strong>Registry-first; international site augmentation.</strong> Australia alone often insufficient; plan ANZ + Asia-Pacific recruitment.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 7.3</div>
+        <div class="decision-question">If recruitment lags benchmark?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Drop-off at eligibility screening</div>
+            <div class="branch-action"><strong>Protocol amendment to broaden criteria.</strong> Re-submit minor amendment to HREC.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Drop-off at consent</div>
+            <div class="branch-action"><strong>Revise PICF, consumer co-design.</strong> Often a comprehension or trust issue.</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Site under-performing</div>
+            <div class="branch-action"><strong>Add sites; consider international expansion.</strong> Activating new sites takes 3–6 months — plan early.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>07</div>
+        <div class="output-content">Recruited cohort meeting sample size · Screening log · Protocol deviation register · Adverse event log</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="connector"></div>
+
+  <!-- ========== STAGE 8 ========== -->
+  <section class="stage" id="stage-8">
+    <div class="stage-header" onclick="toggleStage(this)">
+      <div class="stage-number">STAGE 08</div>
+      <h2 class="stage-title">Market Access & Reimbursement</h2>
+      <div class="stage-toggle">▼</div>
+    </div>
+    <div class="stage-body">
+      <p class="stage-intro">TGA approval is permission to sell. Reimbursement is permission to actually have a business.</p>
+
+      <div class="decision">
+        <div class="decision-label">Decision 8.1</div>
+        <div class="decision-question">What reimbursement pathway applies?</div>
+        <div class="branches">
+          <div class="branch path-b">
+            <div class="branch-condition">Procedure-based device (used by clinician)</div>
+            <div class="branch-action"><strong>MBS listing via MSAC.</strong> Submit application; typically 18–36 months to listing decision.</div>
+            <div class="branch-detail">Requires health economic evaluation, comparator analysis, clinical outcomes.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Implantable device</div>
+            <div class="branch-action"><strong>Prescribed List (formerly Prostheses List) via PLAC.</strong> Benefit category and pricing assessed.</div>
+            <div class="branch-detail">Critical for private hospital uptake; pricing benchmarked against comparators.</div>
+          </div>
+          <div class="branch path-a">
+            <div class="branch-condition">Capital equipment / consumable</div>
+            <div class="branch-action"><strong>Direct hospital procurement.</strong> HealthShare NSW, HSV, Health Support Qld tenders + private group purchasing (Ramsay, Healthscope).</div>
+          </div>
+          <div class="branch path-c">
+            <div class="branch-condition">Direct-to-consumer / wellness</div>
+            <div class="branch-action"><strong>Private pay or private health insurance ancillary.</strong> Engage Bupa, Medibank, HCF, nib innovation teams.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="decision">
+        <div class="decision-label">Decision 8.2</div>
+        <div class="decision-question">Post-market surveillance approach?</div>
+        <div class="branches">
+          <div class="branch path-a">
+            <div class="branch-condition">Active surveillance via registry</div>
+            <div class="branch-action"><strong>Register device data in disease registry.</strong> Enables real-world evidence; satisfies TGA PMS obligations.</div>
+          </div>
+          <div class="branch path-b">
+            <div class="branch-condition">Standard PSUR + DAEN monitoring</div>
+            <div class="branch-action"><strong>Sponsor-led Post-Market Surveillance Plan.</strong> Periodic Safety Update Reports; monitor TGA DAEN for signals.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="output-box">
+        <div class="output-label">Output<br>08</div>
+        <div class="output-content">ARTG inclusion · Reimbursement listing (MBS / PL / hospital formulary) · PMS Plan · Real-world evidence collection</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== FOOTNOTE ========== -->
+  <div class="footnote">
+    <div class="footnote-label">Practitioner's Note</div>
+    <p class="footnote-text">The three stages where Australian academic medical device projects most commonly stall are <em>Stage 4 (regulatory classification surprise)</em>, <em>Stage 6 (HREC/governance timeline)</em>, and <em>Stage 8 (reimbursement afterthought)</em>. Strong TTOs front-load these decisions to Stage 3 — choosing a commercialisation pathway with regulatory class, evidence burden, and reimbursement route already mapped — rather than discovering them as constraints later. The R&amp;D Tax Incentive runs continuously across all eight stages and is often the single largest funding source for spin-outs; structure financial records to capture eligible activities from day one.</p>
+  </div>
+
+</div>
+
+<script>
+  function toggleStage(header) {
+    const stage = header.closest('.stage');
+    stage.classList.toggle('collapsed');
+  }
+
+  function expandAll() {
+    document.querySelectorAll('.stage').forEach(s => s.classList.remove('collapsed'));
+  }
+
+  function collapseAll() {
+    document.querySelectorAll('.stage').forEach(s => s.classList.add('collapsed'));
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const btn  = document.getElementById('themeBtn');
+    if (html.getAttribute('data-theme') === 'light') {
+      html.removeAttribute('data-theme');
+      btn.textContent = '☀ Light mode';
+    } else {
+      html.setAttribute('data-theme', 'light');
+      btn.textContent = '☾ Dark mode';
+    }
+  }
+</script>
+</body>
+</html>
