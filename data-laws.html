@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Australian Healthcare & Patient Data Laws</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Newsreader:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:          #0B0A09;
+  --bg-elevated: #131210;
+  --bg-card:     #1A1815;
+  --bg-tag:      #221F1B;
+  --ink:         #EDE8DF;
+  --ink-soft:    #B5AFA6;
+  --ink-muted:   #6A6560;
+  --rule:        #2A2722;
+  --accent:      #D4763A;
+  --accent-dim:  rgba(212,118,58,0.12);
+  --federal:     #4A9EBF;
+  --federal-dim: rgba(74,158,191,0.12);
+  --state:       #7CB87A;
+  --state-dim:   rgba(124,184,122,0.12);
+  --sector:      #C792EA;
+  --sector-dim:  rgba(199,146,234,0.12);
+  --warn:        #E07070;
+  --warn-dim:    rgba(224,112,112,0.10);
+  --gold:        #D4A847;
+  --gold-dim:    rgba(212,168,71,0.12);
+  --new:         #5AB89A;
+  --new-dim:     rgba(90,184,154,0.12);
+}
+
+html[data-theme="light"] {
+  --bg:          #F4EFE8;
+  --bg-elevated: #EDE5D8;
+  --bg-card:     #E6DBC8;
+  --bg-tag:      #DDD2BC;
+  --ink:         #1C1814;
+  --ink-soft:    #3D3630;
+  --ink-muted:   #6B6358;
+  --rule:        #C8BEA8;
+  --accent:      #B04A20;
+  --accent-dim:  rgba(176,74,32,0.10);
+  --federal:     #2A7A9A;
+  --federal-dim: rgba(42,122,154,0.10);
+  --state:       #3A7A38;
+  --state-dim:   rgba(58,122,56,0.10);
+  --sector:      #7040A8;
+  --sector-dim:  rgba(112,64,168,0.10);
+  --warn:        #B83030;
+  --warn-dim:    rgba(184,48,48,0.10);
+  --gold:        #9A7010;
+  --gold-dim:    rgba(154,112,16,0.10);
+  --new:         #2A7A60;
+  --new-dim:     rgba(42,122,96,0.10);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  transition: background 0.35s ease, color 0.35s ease;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 10% 15%, rgba(74,158,191,0.05) 0%, transparent 45%),
+    radial-gradient(circle at 90% 85%, rgba(199,146,234,0.04) 0%, transparent 45%);
+}
+
+.container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 52px 24px 120px;
+}
+
+/* ── HEADER ── */
+header {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 40px;
+  margin-bottom: 52px;
+  position: relative;
+}
+header::after {
+  content: "";
+  position: absolute;
+  bottom: -1px; left: 0;
+  width: 60px; height: 1px;
+  background: var(--accent);
+}
+
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.eyebrow::before { content: "◈"; font-size: 10px; }
+
+h1 {
+  font-family: 'Fraunces', serif;
+  font-weight: 300;
+  font-size: clamp(38px, 6.5vw, 64px);
+  line-height: 0.97;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 22px;
+  font-variation-settings: "opsz" 144;
+}
+h1 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--accent);
+}
+
+.subtitle {
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 620px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.45;
+}
+
+.header-meta {
+  margin-top: 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+.header-meta span { display: flex; align-items: center; gap: 6px; }
+.header-meta span::before { content: "■"; font-size: 7px; color: var(--accent); }
+
+/* ── STICKY NAV ── */
+.sticky-nav {
+  position: sticky;
+  top: 0;
+  background: rgba(11,10,9,0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--rule);
+  padding: 10px 0;
+  margin: 0 -24px 52px;
+  padding-left: 24px;
+  padding-right: 24px;
+  z-index: 50;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.sticky-nav a {
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 2px;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.sticky-nav a:hover { color: var(--accent); background: var(--accent-dim); }
+.nav-divider { color: var(--rule); padding: 5px 4px; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 52px;
+  padding: 18px 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+.dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.dot.federal  { background: var(--federal); box-shadow: 0 0 8px rgba(74,158,191,0.5); }
+.dot.state    { background: var(--state);   box-shadow: 0 0 8px rgba(124,184,122,0.5); }
+.dot.sector   { background: var(--sector);  box-shadow: 0 0 8px rgba(199,146,234,0.5); }
+.dot.new      { background: var(--new);     box-shadow: 0 0 8px rgba(90,184,154,0.5); }
+.dot.warn     { background: var(--warn);    box-shadow: 0 0 8px rgba(224,112,112,0.5); }
+
+/* ── SECTION ── */
+.section {
+  margin-bottom: 72px;
+}
+.section-header {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 16px;
+  margin-bottom: 36px;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+.section-header:hover { border-bottom-color: var(--accent); }
+
+.section-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  font-variation-settings: "opsz" 60;
+  flex: 1;
+}
+.section-toggle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--ink-muted);
+  transition: transform 0.3s;
+  user-select: none;
+}
+.section.collapsed .section-toggle { transform: rotate(-90deg); }
+.section.collapsed .section-body { display: none; }
+
+.section-intro {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--ink-soft);
+  font-size: 16px;
+  margin-bottom: 32px;
+  max-width: 700px;
+  line-height: 1.5;
+}
+
+/* ── LAW CARD ── */
+.law-card {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  margin-bottom: 16px;
+  transition: border-color 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+.law-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px; height: 100%;
+}
+.law-card.federal::before  { background: var(--federal); }
+.law-card.state::before    { background: var(--state); }
+.law-card.sector::before   { background: var(--sector); }
+.law-card.new-law::before  { background: var(--new); }
+.law-card.critical::before { background: var(--warn); }
+
+.law-card:hover { border-color: var(--ink-muted); }
+
+.card-header {
+  padding: 18px 20px 16px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.card-title-block { flex: 1; }
+
+.card-law-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.3;
+}
+.card-short-desc {
+  font-size: 14px;
+  color: var(--ink-soft);
+  font-style: italic;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 7px;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.tag.federal  { background: var(--federal-dim);  color: var(--federal); }
+.tag.state    { background: var(--state-dim);    color: var(--state); }
+.tag.sector   { background: var(--sector-dim);   color: var(--sector); }
+.tag.new      { background: var(--new-dim);      color: var(--new); }
+.tag.warn     { background: var(--warn-dim);      color: var(--warn); }
+.tag.gold     { background: var(--gold-dim);     color: var(--gold); }
+.card-toggle-icon {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  color: var(--ink-muted);
+  transition: transform 0.25s;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.law-card.open .card-toggle-icon { transform: rotate(180deg); }
+
+.card-body {
+  display: none;
+  padding: 0 20px 20px 24px;
+  border-top: 1px solid var(--rule);
+  margin-top: 0;
+}
+.law-card.open .card-body { display: block; }
+
+.card-body-inner {
+  padding-top: 18px;
+  display: grid;
+  gap: 16px;
+}
+
+.card-section-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.card-text strong { color: var(--ink); font-weight: 500; }
+
+.bullet-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.bullet-list li {
+  font-size: 13px;
+  color: var(--ink-soft);
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.45;
+}
+.bullet-list li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--ink-muted);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+.bullet-list li strong { color: var(--ink); font-weight: 500; }
+
+.penalty-box {
+  padding: 12px 16px;
+  background: var(--warn-dim);
+  border-left: 2px solid var(--warn);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--warn);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+}
+
+.highlight-box {
+  padding: 12px 16px;
+  background: var(--new-dim);
+  border-left: 2px solid var(--new);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.highlight-box strong { color: var(--new); font-weight: 500; }
+
+.gold-box {
+  padding: 12px 16px;
+  background: var(--gold-dim);
+  border-left: 2px solid var(--gold);
+  font-size: 13px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.gold-box strong { color: var(--gold); font-weight: 500; }
+
+/* ── STATE GRID ── */
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  margin-top: 4px;
+}
+.state-item {
+  background: var(--bg-card);
+  border: 1px solid var(--rule);
+  padding: 14px 16px;
+  border-left: 3px solid var(--state);
+}
+.state-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--state);
+  margin-bottom: 6px;
+}
+.state-laws {
+  font-size: 12px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.state-laws em { font-style: italic; color: var(--ink-muted); }
+
+/* ── TIMELINE ── */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: "";
+  position: absolute;
+  left: 6px; top: 6px; bottom: 0;
+  width: 1px;
+  background: var(--rule);
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 24px;
+}
+.timeline-item::before {
+  content: "";
+  position: absolute;
+  left: -25px;
+  top: 7px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 2px solid var(--accent);
+}
+.timeline-item.done::before  { background: var(--new); border-color: var(--new); }
+.timeline-item.pending::before { background: var(--gold); border-color: var(--gold); }
+
+.timeline-date {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.timeline-item.done .timeline-date  { color: var(--new); }
+.timeline-item.pending .timeline-date { color: var(--gold); }
+
+.timeline-content {
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.timeline-content strong { color: var(--ink); font-weight: 500; }
+
+/* ── CONTROLS ── */
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 36px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.ctrl-btn {
+  background: transparent;
+  border: 1px solid var(--rule);
+  padding: 7px 13px;
+  color: var(--ink-muted);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  transition: all 0.2s;
+}
+.ctrl-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.ctrl-btn.active { border-color: var(--accent); color: var(--accent); background: var(--accent-dim); }
+.theme-toggle { margin-left: auto; }
+
+/* ── FOOTNOTE ── */
+.footnote {
+  margin-top: 80px;
+  padding: 28px 32px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+}
+.footnote-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.footnote-text {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  font-weight: 300;
+  font-style: italic;
+}
+.footnote-text em { color: var(--ink); font-style: normal; font-weight: 400; }
+
+@media (max-width: 600px) {
+  .container { padding: 32px 16px 80px; }
+  .sticky-nav { margin: 0 -16px 40px; padding: 10px 16px; }
+  .state-grid { grid-template-columns: 1fr; }
+  .controls { flex-wrap: wrap; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="eyebrow">Legal Reference · Updated May 2026</div>
+  <h1>Australian<br><em>Healthcare &</em><br>Patient Data Laws</h1>
+  <p class="subtitle">A structured reference to federal legislation, state and territory regimes, sector-specific rules, and current reform timelines governing health information in Australia.</p>
+  <div class="header-meta">
+    <span>Federal + 8 Jurisdictions</span>
+    <span>POLA 2024 · RRO Act 2025</span>
+    <span>OAIC · ADHA · TGA</span>
+    <span>Current to May 2026</span>
+  </div>
+</header>
+
+<nav class="sticky-nav">
+  <a href="#sec-federal">Federal</a>
+  <span class="nav-divider">·</span>
+  <a href="#sec-digital">Digital Health</a>
+  <span class="nav-divider">·</span>
+  <a href="#sec-state">State & Territory</a>
+  <span class="nav-divider">·</span>
+  <a href="#sec-breach">Breach Notification</a>
+  <span class="nav-divider">·</span>
+  <a href="#sec-research">Research</a>
+  <span class="nav-divider">·</span>
+  <a href="#sec-reform">Reform Timeline</a>
+  <span class="nav-divider">·</span>
+  <a href="#sec-domicile">Data Domicile</a>
+</nav>
+
+<div class="legend">
+  <div class="legend-item"><div class="dot federal"></div>Federal law</div>
+  <div class="legend-item"><div class="dot state"></div>State / territory</div>
+  <div class="legend-item"><div class="dot sector"></div>Sector-specific</div>
+  <div class="legend-item"><div class="dot new"></div>New / amended 2024–26</div>
+  <div class="legend-item"><div class="dot warn"></div>Enforcement risk</div>
+</div>
+
+<div class="controls">
+  <button class="ctrl-btn" onclick="expandAll()">Expand all</button>
+  <button class="ctrl-btn" onclick="collapseAll()">Collapse all</button>
+  <button class="ctrl-btn theme-toggle" onclick="toggleTheme()" id="themeBtn">☀ Light mode</button>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 1 — FEDERAL FRAMEWORK
+════════════════════════════════════════════ -->
+<section class="section" id="sec-federal">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">01</div>
+    <h2 class="section-title">Federal Privacy Framework</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">The Privacy Act 1988 (Cth) is the principal federal instrument. Health information is classified as sensitive information and receives the highest level of protection under the Australian Privacy Principles.</p>
+
+    <!-- Privacy Act -->
+    <div class="law-card federal" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Privacy Act 1988 (Cth) — as amended by POLA 2024</div>
+          <div class="card-short-desc">Principal federal privacy law; governs all APP entities handling personal and sensitive health information</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag new">Amended Dec 2024</span>
+            <span class="tag warn">Penalty up to $50M</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Who It Covers</div>
+            <div class="card-text">All <strong>APP entities</strong> — private sector organisations with annual turnover above AUD $3 million, plus smaller entities that are health service providers regardless of turnover. Federal and ACT government agencies. From Wave 2 reforms (timeline TBC): small businesses exemption to be narrowed.</div>
+          </div>
+          <div>
+            <div class="card-section-label">13 Australian Privacy Principles (APPs) — Health-Critical</div>
+            <ul class="bullet-list">
+              <li><strong>APP 3:</strong> Health information can only be collected with consent or if necessary for a permitted health situation</li>
+              <li><strong>APP 6:</strong> Health info used/disclosed only for primary purpose of collection or with consent — secondary use requires specific grounds</li>
+              <li><strong>APP 11:</strong> Must take reasonable steps to protect health information from misuse, interference, loss, unauthorised access — clarified by POLA 2024</li>
+              <li><strong>APP 12/13:</strong> Individuals have rights of access and correction; health providers have specific obligations around release of records</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">POLA 2024 Key Changes (December 2024)</div>
+            <ul class="bullet-list">
+              <li>Clarified "reasonable steps" standard under APP 11 — now more prescriptive</li>
+              <li>New <strong>statutory tort</strong> for serious invasion of privacy — individuals can sue directly from June 2025</li>
+              <li>OAIC infringement notices up to AUD $66,000 per contravention for administrative breaches (e.g. non-compliant privacy policy)</li>
+              <li>New criminal offence for doxxing (publishing private information to harm) — up to 7 years imprisonment</li>
+              <li>Strengthened children's privacy provisions</li>
+            </ul>
+          </div>
+          <div class="penalty-box">
+            ⚠ Penalties: Up to AUD $50 million · or 3× benefit obtained · or 30% of adjusted domestic turnover — whichever is greatest. First civil penalty against a health entity: Australian Clinical Labs fined AUD $5.8M (October 2025) after 2022 Medlab Pathology breach.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- National Health Act -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">National Health Act 1953 (Cth) — National Health (Privacy) Rules 2025</div>
+          <div class="card-short-desc">Governs MBS and PBS claims data held by Commonwealth agencies</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag new">Rules commenced 1 April 2025</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">What the Rules Cover</div>
+            <div class="card-text">Requirements for Australian Government agencies regarding use, storage, disclosure, and linkage of <strong>Medicare Benefits Schedule (MBS)</strong> and <strong>Pharmaceutical Benefits Schedule (PBS)</strong> claims information — one of the richest health datasets in Australia.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Key Requirements from 1 April 2025</div>
+            <ul class="bullet-list">
+              <li><strong>Data storage:</strong> Agencies must implement enhanced security controls for MBS/PBS data at rest and in transit</li>
+              <li><strong>Linkage restrictions:</strong> Strict rules on linking MBS/PBS data with other datasets without authorisation</li>
+              <li><strong>Research access:</strong> Researchers must apply through approved pathways; ethics committee approval mandatory</li>
+              <li><strong>Disclosure limits:</strong> Tightened rules on which agencies can share data and for what purposes</li>
+            </ul>
+          </div>
+          <div class="highlight-box">
+            <strong>Relevance for medtech:</strong> Clinical trial sponsors using Medicare data for recruitment or outcome verification must comply with these Rules. Registry linkage studies using PBS data require specific authorisation and data governance documentation.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 2 — DIGITAL HEALTH
+════════════════════════════════════════════ -->
+<section class="section" id="sec-digital">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">02</div>
+    <h2 class="section-title">Digital Health Legislation</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">A parallel legislative stack governs the My Health Record system, healthcare identifiers, and digital health infrastructure — largely separate from the Privacy Act but interoperating with it.</p>
+
+    <!-- My Health Records Act -->
+    <div class="law-card federal" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">My Health Records Act 2012 (Cth) — amended by RRO Act 2025</div>
+          <div class="card-short-desc">Governs Australia's national electronic health record system — approximately 24 million Australians enrolled</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag new">Amended Dec 2025</span>
+            <span class="tag sector">ADHA Oversight</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Core Framework</div>
+            <div class="card-text">Opt-out national system — all Australians have a My Health Record unless they chose to opt out. Healthcare providers registered with My Health Record can upload and access clinical documents. The <strong>Australian Digital Health Agency (ADHA)</strong> is System Operator. The OAIC oversees privacy enforcement.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Permitted vs Prohibited Uses</div>
+            <ul class="bullet-list">
+              <li><strong>Permitted:</strong> Provision of healthcare to the individual; management of healthcare; indemnity insurance for healthcare providers; quality assurance and safety activities</li>
+              <li><strong>Prohibited (expanded by RRO Act 2025):</strong> Underwriting insurance decisions; determining insurance policy coverage; use for employment decisions; any commercial secondary use without specific authorisation</li>
+              <li><strong>RRO Act 2025 addition:</strong> Downstream use of data that was lawfully downloaded from MHR but then used for a prohibited purpose is now also prohibited — closes a previous gap</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Secondary Use for Research</div>
+            <div class="card-text">De-identified MHR data available for research and public health purposes under the ADHA's Secondary Use Framework. Governed by a <strong>My Health Record Data Governance Board</strong>. Individual opt-out from de-identified data release is available. Identified data requires individual consent.</div>
+          </div>
+          <div class="penalty-box">
+            ⚠ Civil penalties up to AUD $315,000 for individuals and AUD $1.575M for bodies corporate for misuse of MHR data. All MHR data breaches must be reported to ADHA regardless of scale.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Healthcare Identifiers Act -->
+    <div class="law-card federal" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Healthcare Identifiers Act 2010 (Cth) — amended by RRO Act 2025</div>
+          <div class="card-short-desc">Governs Individual Healthcare Identifiers (IHI), HPI-I (providers), and HPI-O (organisations)</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag new">Phase 2 Dec 2025</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">What Healthcare Identifiers Do</div>
+            <div class="card-text">Unique numeric identifiers that enable safe linkage of health records across systems — an Individual Healthcare Identifier (IHI) is assigned to every Australian. Underpins My Health Record, electronic prescribing, secure messaging, and pathology/imaging linkage.</div>
+          </div>
+          <div>
+            <div class="card-section-label">RRO Act 2025 — Phase 2 Changes (December 2025)</div>
+            <ul class="bullet-list">
+              <li>Enhanced <strong>National Healthcare Provider Directory</strong> — more comprehensive digital health gateway for provider communication</li>
+              <li>Research institutes can now use healthcare identifiers for HREC-approved research with patient consent</li>
+              <li>Data standards development mandated for safe cross-jurisdictional data exchange</li>
+              <li><strong>From February 2027:</strong> Healthcare identifiers authorised for use in wearable devices and remote patient monitoring technology</li>
+            </ul>
+          </div>
+          <div class="gold-box">
+            <strong>Medtech/SaMD relevance:</strong> The February 2027 extension to wearables and remote monitors is significant for connected device manufacturers — products that capture biometric data may soon be able to integrate with the HI Service, creating both an opportunity and a compliance obligation.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Digital ID Act -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Digital ID Act 2024 (Cth)</div>
+          <div class="card-short-desc">Establishes the Australian Government Digital ID System — affects patient identity verification in health portals</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag new">2024</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Health Sector Relevance</div>
+            <div class="card-text">Accredited Digital ID providers must comply with the NDB scheme when providing accredited services. Health platforms using Digital ID for patient authentication face privacy obligations aligned with the Privacy Act. The OAIC co-regulates Digital ID privacy alongside the Digital ID Regulator.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 3 — STATE & TERRITORY
+════════════════════════════════════════════ -->
+<section class="section" id="sec-state">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">03</div>
+    <h2 class="section-title">State & Territory Legislation</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">The Privacy Act does not apply to state and territory public sector health service providers — public hospitals, state health departments. This creates a patchwork. NSW, Victoria, and ACT have the most comprehensive parallel health privacy regimes.</p>
+
+    <div class="card-section-label" style="margin-bottom:16px;">Jurisdiction Map</div>
+    <div class="state-grid">
+
+      <div class="state-item">
+        <div class="state-name">New South Wales</div>
+        <div class="state-laws">
+          <strong>Privacy and Personal Information Protection Act 1998 (NSW)</strong> — public sector personal info<br><br>
+          <strong>Health Records and Information Privacy Act 2002 (NSW)</strong> — health information, public AND private sector. 15 Health Privacy Principles (HPPs) broadly equivalent to APPs but not identical. NSW IPC enforces.<br><br>
+          <em>Private sector health providers must comply with both the federal APPs and NSW HPPs.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">Victoria</div>
+        <div class="state-laws">
+          <strong>Health Records Act 2001 (Vic)</strong> — governs health information for both public and private sector health service providers. 11 Health Privacy Principles. Office of the Victorian Information Commissioner (OVIC) enforces.<br><br>
+          <strong>Privacy and Data Protection Act 2014 (Vic)</strong> — general privacy for Victorian public sector.<br><br>
+          <em>Victoria: dual compliance required for private health providers.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">ACT</div>
+        <div class="state-laws">
+          <strong>Health Records (Privacy and Access) Act 1997 (ACT)</strong> — health records in the ACT, public and private sector.<br><br>
+          <strong>Information Privacy Act 2014 (ACT)</strong> — general ACT public sector privacy.<br><br>
+          <em>ACT has the oldest dedicated health records legislation in Australia.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">Queensland</div>
+        <div class="state-laws">
+          <strong>Information Privacy Act 2009 (Qld)</strong> — Queensland public sector only (including public hospitals).<br><br>
+          <strong>Information Privacy and Other Legislation Amendment Act 2023 (Qld)</strong> — introduces mandatory data breach notification for Qld public sector; breach notification requirements expected from mid-2026.<br><br>
+          <em>Private health providers in QLD covered only by federal Privacy Act.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">Western Australia</div>
+        <div class="state-laws">
+          <strong>Privacy and Responsible Information Sharing Act 2024 (WA)</strong> — commenced 2025; applies to WA public sector including public hospitals. Introduces mandatory information breach notification and an Information Commissioner for WA.<br><br>
+          <em>First comprehensive privacy legislation for WA. Previously had no specific privacy Act.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">South Australia</div>
+        <div class="state-laws">
+          <strong>No dedicated privacy legislation.</strong> SA government agencies operate under Cabinet-endorsed Information Privacy Principles. SA Privacy Committee handles complaints.<br><br>
+          Health and Community Services Complaints Commissioner receives broader health complaints.<br><br>
+          <em>Private sector SA health providers covered by federal Privacy Act only.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">Northern Territory</div>
+        <div class="state-laws">
+          <strong>Information Act 2002 (NT)</strong> — covers NT public sector including public hospitals. NT Information Commissioner enforces.<br><br>
+          <em>Private health providers covered by federal Privacy Act only.</em>
+        </div>
+      </div>
+
+      <div class="state-item">
+        <div class="state-name">Tasmania</div>
+        <div class="state-laws">
+          <strong>Personal Information Protection Act 2004 (Tas)</strong> — covers Tasmanian public sector including public hospitals. Tasmanian Ombudsman handles complaints.<br><br>
+          <em>Private health providers covered by federal Privacy Act only.</em>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="highlight-box" style="margin-top:24px;">
+      <strong>Key compliance rule:</strong> A private hospital or clinic operating in NSW, VIC, or ACT must comply with both the federal APPs and the relevant state health privacy principles — whichever imposes the higher standard governs. A public hospital in any state is covered by that state's legislation, not the federal Privacy Act.
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 4 — BREACH NOTIFICATION
+════════════════════════════════════════════ -->
+<section class="section" id="sec-breach">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">04</div>
+    <h2 class="section-title">Data Breach Notification</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">Healthcare is consistently the most-breached sector in Australia. In January–June 2025, health entities accounted for 18% of all Notifiable Data Breach notifications — the highest of any sector.</p>
+
+    <!-- NDB Scheme -->
+    <div class="law-card critical" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Notifiable Data Breaches (NDB) Scheme — Part IIIC, Privacy Act 1988</div>
+          <div class="card-short-desc">Mandatory notification to OAIC and affected individuals when a breach is likely to cause serious harm</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag warn">Mandatory</span>
+            <span class="tag new">Commenced 2018</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Trigger — Three Conditions</div>
+            <ul class="bullet-list">
+              <li>Unauthorised access to, disclosure of, or loss of personal information held by an APP entity</li>
+              <li>A reasonable person would conclude the breach is likely to result in <strong>serious harm</strong> to one or more individuals</li>
+              <li>The entity has not been able to prevent likely serious harm through remedial action</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Notification Requirements</div>
+            <ul class="bullet-list">
+              <li>Notify OAIC as soon as practicable after becoming aware of an eligible data breach</li>
+              <li>Notify affected individuals directly — or by prominent publication if direct notification impractical</li>
+              <li>Statement must include: entity identity, description of breach, kinds of information, recommendations for individuals</li>
+              <li><strong>Assessment window:</strong> 30 days maximum to assess whether a suspected breach is eligible</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">My Health Record — Additional Layer</div>
+            <div class="card-text"><strong>All MHR data breaches must be reported to the ADHA</strong> regardless of scale or harm assessment. This is separate from and additional to the NDB scheme. ADHA contacts affected healthcare recipients where required.</div>
+          </div>
+          <div class="penalty-box">
+            ⚠ Australian Clinical Labs: AUD $4.2M for APP 11 failure + AUD $800K for delayed assessment + AUD $800K for late OAIC notification = AUD $5.8M total (first-ever health sector civil penalty, October 2025)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- State Breach Schemes -->
+    <div class="law-card state" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">State-Level Mandatory Breach Notification — Emerging Patchwork</div>
+          <div class="card-short-desc">QLD and WA have introduced state-level mandatory breach notification for public sector health entities</div>
+          <div class="card-tags">
+            <span class="tag state">State</span>
+            <span class="tag new">2024–2026</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">State Schemes</div>
+            <ul class="bullet-list">
+              <li><strong>Queensland:</strong> IP&OLA 2023 introduces mandatory breach notification for QLD public sector — notification requirements expected from mid-2026</li>
+              <li><strong>Western Australia:</strong> PRIS Act 2024 establishes mandatory information breach notification scheme for WA public sector, including public hospitals</li>
+              <li><strong>NSW, VIC, ACT:</strong> No separate mandatory breach notification schemes — rely on federal NDB scheme for both public and private health entities</li>
+            </ul>
+          </div>
+          <div class="highlight-box">
+            <strong>Compliance implication:</strong> A public health service operating in QLD or WA from 2026 must comply with both the state mandatory breach scheme AND the federal NDB scheme — with potentially different thresholds and timelines.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 5 — RESEARCH & SECONDARY USE
+════════════════════════════════════════════ -->
+<section class="section" id="sec-research">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">05</div>
+    <h2 class="section-title">Research, Secondary Use & AI</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">Research and secondary use of health data is permitted under specific conditions — ethics approval, de-identification, and data governance arrangements. AI and machine learning add an emerging regulatory layer.</p>
+
+    <!-- Research exemptions -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Research Exemptions — Privacy Act + National Health Act</div>
+          <div class="card-short-desc">Conditions under which health data can be used without individual consent for research purposes</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag sector">Research</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Permitted Health Situations (Privacy Act Schedule)</div>
+            <ul class="bullet-list">
+              <li>Research relevant to public health or safety — if HREC-approved, consent impractical, and research cannot be conducted with de-identified data</li>
+              <li>Compilation or analysis of statistics relevant to public health or safety</li>
+              <li>Management, funding, monitoring, or evaluation of a health service</li>
+              <li>Genetic relative disclosure — to lessen serious threat to life/health/safety of a genetic relative</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">MBS/PBS Data for Research</div>
+            <div class="card-text">National Health (Privacy) Rules 2025 govern access to linked MBS/PBS data. Applications must be submitted through the <strong>Australian Institute of Health and Welfare (AIHW)</strong> or the <strong>Centre for Health Record Linkage (CHeReL)</strong> in NSW. Ethics committee approval is mandatory. Data is supplied in de-identified form.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Healthcare Identifiers for Research (RRO Act 2025)</div>
+            <div class="card-text">Research institutes can now use healthcare identifiers for HREC-approved research with patient consent. This enables more precise record linkage for longitudinal health studies and device outcome registries.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI and health data -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">AI, Algorithms & Health Data — Emerging Obligations</div>
+          <div class="card-short-desc">No dedicated AI health law yet; Privacy Act + TGA SaMD rules + OAIC priorities converge</div>
+          <div class="card-tags">
+            <span class="tag sector">AI / SaMD</span>
+            <span class="tag new">OAIC Priority 2025–26</span>
+            <span class="tag warn">Rapidly evolving</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Current Framework</div>
+            <ul class="bullet-list">
+              <li><strong>Privacy Act APPs apply</strong> to AI systems processing health data — no separate AI exemption</li>
+              <li>AI that constitutes a <strong>medical device</strong> (SaMD) must comply with TGA classification, clinical evaluation, and cybersecurity requirements</li>
+              <li><strong>OAIC 2025–26 priorities</strong> explicitly target "artificial intelligence systems" and "excessive data collection" — health AI is in scope</li>
+              <li>Automated decision-making using health data must comply with APP 3 (collection), APP 6 (use/disclosure), and the purpose limitation principles</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Training AI on Health Data</div>
+            <ul class="bullet-list">
+              <li>Must identify the legal basis for collection and use of health data for training</li>
+              <li>De-identification is required before training unless consent obtained or permitted health situation applies</li>
+              <li>Re-identification risk must be assessed — OAIC has emphasised that "de-identified" data that can be re-identified remains personal information</li>
+              <li>If training data sourced from MHR or MBS/PBS, specific authorisation frameworks apply</li>
+            </ul>
+          </div>
+          <div class="gold-box">
+            <strong>Watch:</strong> Australia's proposed AI governance framework (voluntary in 2025; mandatory AI guardrails under consultation) will interact with health AI. The TGA's position on AI/ML SaMD is aligned with FDA GMLP principles. No direct equivalent to the EU AI Act has been enacted, but obligations under the Privacy Act effectively fill some of the same space.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AIHW -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Australian Institute of Health and Welfare Act 1987 (Cth)</div>
+          <div class="card-short-desc">Governs AIHW's role as Australia's national health data custodian and linkage authority</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag sector">Data Custodian</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">AIHW Functions</div>
+            <ul class="bullet-list">
+              <li>Collects, links, and analyses health and welfare data from states, territories, and Commonwealth</li>
+              <li>Operates the <strong>National Death Index</strong>, <strong>National Cancer Statistics Clearing House</strong>, and multiple disease registries</li>
+              <li>Provides data linkage services for approved research — linking MBS, PBS, hospital, cancer, death data</li>
+              <li>Applications require ethics approval; strict conditions govern data access, storage, and publication</li>
+            </ul>
+          </div>
+          <div class="highlight-box">
+            <strong>Medtech relevance:</strong> Post-market surveillance studies and real-world evidence generation for Australian medical devices frequently depend on AIHW data linkage. Early engagement with AIHW during trial design avoids months of delay at the data access stage.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 6 — REFORM TIMELINE
+════════════════════════════════════════════ -->
+<section class="section" id="sec-reform">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">06</div>
+    <h2 class="section-title">Reform Timeline 2024–2027</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">Australian health data law is in its most active reform period in decades. The following timeline shows enacted and pending changes relevant to healthcare and medtech.</p>
+
+    <div class="timeline">
+
+      <div class="timeline-item done">
+        <div class="timeline-date">November 2024</div>
+        <div class="timeline-content"><strong>Privacy and Other Legislation Amendment Act 2024 (POLA)</strong> passed by Parliament. Statutory tort for serious privacy invasion; clarified APP 11; criminal doxxing offence; OAIC infringement notices. Commenced December 2024.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-date">December 2024</div>
+        <div class="timeline-content"><strong>Western Australia Privacy and Responsible Information Sharing Act 2024 (PRIS)</strong> commenced — first privacy legislation for WA public sector, including public hospitals.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-date">1 April 2025</div>
+        <div class="timeline-content"><strong>National Health (Privacy) Rules 2025</strong> commenced — enhanced protection for MBS/PBS claims data; new storage, linkage, and disclosure requirements for Commonwealth agencies.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-date">June 2025</div>
+        <div class="timeline-content"><strong>Statutory tort for serious invasion of privacy</strong> became actionable — individuals can now sue directly in Australian courts without needing to go through OAIC. First significant cases expected in 2026.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-date">October 2025</div>
+        <div class="timeline-content"><strong>First civil penalty in health sector:</strong> Australian Clinical Labs ordered to pay AUD $5.8M — establishes that health entities face real financial consequences for APP 11 failures and delayed breach notification.</div>
+      </div>
+
+      <div class="timeline-item done">
+        <div class="timeline-date">December 2025</div>
+        <div class="timeline-content"><strong>Regulatory Reform Omnibus Act 2025 (RRO Act)</strong> — Phase 2 healthcare identifier reforms commenced; MHR prohibited purposes expanded; National Healthcare Provider Directory enhanced; research use of identifiers with consent enabled.</div>
+      </div>
+
+      <div class="timeline-item pending">
+        <div class="timeline-date">Mid-2026 (expected)</div>
+        <div class="timeline-content"><strong>Queensland mandatory data breach notification</strong> for public sector (including public hospitals) expected to take effect — one year after QLD Information Privacy Act reforms commenced.</div>
+      </div>
+
+      <div class="timeline-item pending">
+        <div class="timeline-date">February 2027</div>
+        <div class="timeline-content"><strong>Healthcare identifiers extended to wearable devices and remote monitors</strong> — manufacturers of connected health technology will face new obligations when integrating with the HI Service.</div>
+      </div>
+
+      <div class="timeline-item pending">
+        <div class="timeline-date">TBC — Wave 2 Privacy Reform</div>
+        <div class="timeline-content"><strong>Second tranche of Privacy Act reforms:</strong> Narrowing of small business exemption (currently AUD $3M turnover threshold); right to erasure; right to object to automated decision-making; enhanced children's privacy protections. Bill expected in 2026.</div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════
+     SECTION 7 — DATA DOMICILE & SOVEREIGNTY
+════════════════════════════════════════════ -->
+<section class="section" id="sec-domicile">
+  <div class="section-header" onclick="toggleSection(this)">
+    <div class="section-num">07</div>
+    <h2 class="section-title">Data Domicile, Residency & Sovereignty</h2>
+    <div class="section-toggle">▼</div>
+  </div>
+  <div class="section-body">
+    <p class="section-intro">Where health data physically lives — and who has legal access to it — is one of the most operationally consequential compliance questions for cloud-hosted medtech, SaMD, and hospital systems. Three distinct concepts apply simultaneously.</p>
+
+    <!-- Concept definitions -->
+    <div class="law-card federal" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Three Concepts — Residency vs Sovereignty vs Localisation</div>
+          <div class="card-short-desc">Frequently conflated, but legally distinct — each creates different obligations</div>
+          <div class="card-tags">
+            <span class="tag federal">Foundational</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Data Residency</div>
+            <div class="card-text">The physical geographic location where data is stored. A residency requirement says <strong>where data must sit</strong> — but does not prevent foreign legal access to it. A US hyperscaler's Sydney data centre satisfies data residency but not data sovereignty.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Data Sovereignty</div>
+            <div class="card-text">Data remains subject exclusively to Australian law, accessible only to Australian entities, stored and operated by providers not subject to foreign surveillance legislation. Requires both local storage <strong>and</strong> that the cloud provider's parent company is not compellable under foreign law (e.g. US CLOUD Act, US FISA Section 702).</div>
+          </div>
+          <div>
+            <div class="card-section-label">Data Localisation</div>
+            <div class="card-text">A legal requirement that data must remain within a country's or territory's borders — the strongest form of restriction. Australia's My Health Record regime is effectively a localisation mandate. Some state health records laws impose intra-state localisation unless specific conditions are met.</div>
+          </div>
+          <div class="gold-box">
+            <strong>The critical distinction for cloud procurement:</strong> A hyperscaler running servers in Sydney still holds data subject to US CLOUD Act compulsion — meaning US law enforcement can access that data without notifying the Australian patient or provider. Only a provider whose parent entity is not subject to foreign surveillance law achieves true sovereignty.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Health Records — absolute prohibition -->
+    <div class="law-card critical" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">My Health Records Act 2012 — Absolute AU Localisation Requirement</div>
+          <div class="card-short-desc">MHR data and all backups must never leave Australia — no exceptions, no consent mechanism</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag warn">Absolute Prohibition</span>
+            <span class="tag sector">MHR System</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">The Rule</div>
+            <div class="card-text">My Health Record data — including all associated data and backups — must never be processed, held, taken, or handled outside of Australia. This applies to the System Operator (ADHA), registered healthcare providers uploading or accessing records, repository operators, portal operators, and contracted service providers.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Practical Implications</div>
+            <ul class="bullet-list">
+              <li>Any software or platform that integrates with the MHR system must host all MHR-derived data in Australian infrastructure</li>
+              <li>Backup and disaster recovery infrastructure must also be onshore — offshore DR is non-compliant</li>
+              <li>Offshore support or maintenance personnel who can access MHR data constitute a potential breach</li>
+              <li>Cloud service providers must be able to demonstrate ADHA-compliant AU-only data handling, including subcontractors</li>
+            </ul>
+          </div>
+          <div class="penalty-box">
+            ⚠ Offshore storage or processing of MHR data is a criminal offence under the MHR Act — not merely a civil penalty matter. All MHR-related data breaches (including offshore access incidents) must be reported to ADHA.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- APP 8 — Cross Border -->
+    <div class="law-card federal" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">APP 8 — Cross-Border Disclosure of Health Information</div>
+          <div class="card-short-desc">Liability follows the data offshore — the Australian entity remains accountable even after transfer</div>
+          <div class="card-tags">
+            <span class="tag federal">Federal</span>
+            <span class="tag new">Strengthened by POLA 2024</span>
+            <span class="tag warn">Accountability follows data</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">The Core Rule</div>
+            <div class="card-text">Before disclosing personal health information to an overseas recipient, an APP entity must take reasonable steps to ensure the recipient will handle it in accordance with the APPs. If the overseas recipient mishandles the data, <strong>the Australian entity is treated as having breached the APPs itself</strong> — not the foreign provider. Liability does not transfer to the overseas party.</div>
+          </div>
+          <div>
+            <div class="card-section-label">What Counts as Cross-Border Disclosure</div>
+            <ul class="bullet-list">
+              <li>Sending health data to an overseas cloud provider for processing (not just storage) is a disclosure</li>
+              <li>Offshore support personnel being given access to health data — even temporarily — is a disclosure</li>
+              <li>API calls that route health data through overseas servers may be a disclosure depending on what the recipient does with the data</li>
+              <li><strong>Exception:</strong> Routing data in transit through overseas servers without effective access by the overseas party is a "use" not a "disclosure" — APP 8 does not apply, but APP 11 security obligations still do</li>
+              <li><strong>Exception:</strong> Offshore cloud storage where the provider is contractually limited to storage only and the AU entity retains effective control is generally not a disclosure — but must be documented</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">How to Comply</div>
+            <ul class="bullet-list">
+              <li><strong>Contractual protections:</strong> Data processing agreements requiring APP-equivalent standards from overseas vendors</li>
+              <li><strong>Due diligence:</strong> Assess the recipient's legal jurisdiction and whether foreign surveillance laws (US CLOUD Act, UK IPA, etc.) create compelled disclosure risk</li>
+              <li><strong>Informed consent:</strong> Alternatively, obtain explicit patient consent to offshore disclosure after informing them the APPs may not apply — rarely practical for health data at scale</li>
+              <li><strong>Post-POLA 2024:</strong> Contractual clauses alone are no longer sufficient — actual oversight and audit of overseas handling is now expected</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- State intra-territory rules -->
+    <div class="law-card state" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">State-Level Intra-Territory Residency — NSW, VIC, ACT</div>
+          <div class="card-short-desc">Health records laws in NSW and VIC restrict disclosure outside the state — creating a sub-national localisation layer</div>
+          <div class="card-tags">
+            <span class="tag state">NSW · VIC · ACT</span>
+            <span class="tag warn">Often Overlooked</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">The Rule</div>
+            <div class="card-text">The <strong>Health Records and Information Privacy Act 2002 (NSW)</strong> and the <strong>Health Records Act 2001 (Vic)</strong> restrict disclosure of health records outside the relevant state or territory — not just outside Australia. This means data held in a NSW public hospital system cannot be moved to a Victorian data centre, or to an interstate cloud region, without meeting specific criteria.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Exceptions Permitting Interstate/Offshore Transfer</div>
+            <ul class="bullet-list">
+              <li>The individual <strong>consents</strong> to the transfer</li>
+              <li>A <strong>substantially similar protective regime</strong> will apply to the records in the receiving jurisdiction</li>
+              <li>The transfer is <strong>necessary for the performance of a contract</strong> between the individual and the organisation</li>
+              <li>The organisation has taken <strong>reasonable steps to protect</strong> the information consistent with state health privacy principles</li>
+            </ul>
+          </div>
+          <div class="highlight-box">
+            <strong>Multi-state deployments:</strong> A cloud platform deployed across NSW and VIC public hospitals must analyse both state regimes. A Sydney AWS region hosting Victorian public hospital data may face both VIC HPP compliance requirements and NSW HRIPA disclosure restrictions. This is one of the most commonly overlooked compliance issues in national health platform deployments.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Government PSPF / IRAP -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Protective Security Policy Framework (PSPF 2025) & IRAP</div>
+          <div class="card-short-desc">Mandatory for Commonwealth health entities; effectively mandatory for vendors supplying government health systems</div>
+          <div class="card-tags">
+            <span class="tag sector">Government</span>
+            <span class="tag new">PSPF 2025 — July 2025</span>
+            <span class="tag gold">Flows to suppliers</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">What PSPF Requires</div>
+            <div class="card-text">The PSPF 2025 (published July 2025) is mandatory for non-corporate Commonwealth entities — including DoHDA, Services Australia (Medicare/PBS), the ADHA, and AIHW. It governs classification of health data (OFFICIAL · OFFICIAL: Sensitive · PROTECTED), storage location, access controls, and cloud hosting standards. PSPF 2025 adds new requirements for AI systems, Zero Trust architecture, and connected peripheral technologies.</div>
+          </div>
+          <div>
+            <div class="card-section-label">IRAP Assessment — Information Security Registered Assessors Program</div>
+            <div class="card-text">Cloud and SaaS providers supplying Commonwealth health agencies must undergo <strong>IRAP assessment</strong> by an ASD-endorsed assessor against the Australian Government Information Security Manual (ISM). IRAP certification at <strong>OFFICIAL: Sensitive</strong> level is effectively a procurement prerequisite for any platform handling Commonwealth health data, including MBS/PBS data, Medicare records, and ADHA systems.</div>
+          </div>
+          <div>
+            <div class="card-section-label">Hosting Certification Framework (HCF)</div>
+            <div class="card-text">Data centres used for classified or sensitive Commonwealth data must be HCF-certified — constructed to PSPF zone specifications. The HCF is currently undergoing reform (paused new registrations from November 2025). Cloud providers must use only HCF-certified facilities or compliant enclaves for Protected-level Commonwealth data.</div>
+          </div>
+          <div class="gold-box">
+            <strong>Private sector flow-down:</strong> PSPF obligations flow through contracts to private sector suppliers. A medtech company supplying a connected device platform to a Commonwealth-funded hospital must implement PSPF-aligned security controls — including AU data residency, IRAP-assessed cloud hosting, and ISM-compliant access management — as contract conditions, even though the company itself is not a government entity.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cloud procurement decision tree -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Cloud Provider Selection — Compliance Decision Framework</div>
+          <div class="card-short-desc">How to assess whether a cloud or SaaS provider is compliant for Australian health data</div>
+          <div class="card-tags">
+            <span class="tag sector">Practical Guide</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Tier 1 — Is the data MHR or MHR-derived?</div>
+            <ul class="bullet-list">
+              <li><strong>Yes →</strong> Must use AU-only infrastructure; provider must be registered with ADHA; no offshore access permitted for any personnel. Only AU-sovereign providers qualify.</li>
+              <li><strong>No →</strong> Proceed to Tier 2</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Tier 2 — Is the data for a Commonwealth health agency?</div>
+            <ul class="bullet-list">
+              <li><strong>Yes →</strong> IRAP assessment required; PSPF compliance required; HCF-certified data centres; AU data residency expected at OFFICIAL: Sensitive and above. Major hyperscalers (AWS, Azure, Google) have achieved IRAP at these levels but remain subject to US CLOUD Act.</li>
+              <li><strong>No →</strong> Proceed to Tier 3</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Tier 3 — Is the data for NSW/VIC/ACT public hospitals?</div>
+            <ul class="bullet-list">
+              <li><strong>Yes →</strong> State health records law restricts interstate and international disclosure; document compliance basis; confirm the receiving region/provider meets substantially similar protections.</li>
+              <li><strong>No →</strong> Proceed to Tier 4</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Tier 4 — General private sector health data (APP entities)</div>
+            <ul class="bullet-list">
+              <li>Overseas storage/processing triggers APP 8 — requires contractual protections and due diligence</li>
+              <li>Assess whether provider's parent company is subject to foreign compelled disclosure (US CLOUD Act, UK IPA)</li>
+              <li>Document the APP 8 compliance basis; maintain records for OAIC audit purposes</li>
+              <li>Privacy Impact Assessment recommended before deploying any offshore or hyperscaler solution for health data</li>
+            </ul>
+          </div>
+          <div class="penalty-box">
+            ⚠ Post-POLA 2024: The OAIC has explicitly flagged AI systems and cloud providers as regulatory priority areas for 2025–26. Inadequate APP 8 due diligence on overseas cloud vendors handling health data is a live enforcement risk — not a theoretical one.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sovereignty providers -->
+    <div class="law-card sector" onclick="toggleCard(this)">
+      <div class="card-header">
+        <div class="card-title-block">
+          <div class="card-law-name">Australian Sovereign Cloud vs Hyperscaler — Key Distinctions</div>
+          <div class="card-short-desc">Not all "Australian data centres" are created equal under law</div>
+          <div class="card-tags">
+            <span class="tag sector">Procurement</span>
+            <span class="tag warn">CLOUD Act Exposure</span>
+          </div>
+        </div>
+        <div class="card-toggle-icon">▼</div>
+      </div>
+      <div class="card-body">
+        <div class="card-body-inner">
+          <div>
+            <div class="card-section-label">Hyperscalers with AU Regions (AWS, Azure, Google)</div>
+            <ul class="bullet-list">
+              <li>Physical servers in Australia — satisfies data <strong>residency</strong> requirements</li>
+              <li>IRAP-assessed at OFFICIAL: Sensitive for government use — suitable for most Commonwealth health workloads below PROTECTED</li>
+              <li><strong>Subject to US CLOUD Act</strong> — US law enforcement can compel disclosure regardless of where data sits; provider cannot always notify the Australian customer</li>
+              <li>Azure and AWS have "sovereign cloud" offerings (e.g. Azure Government, AWS GovCloud) with additional controls, but these are primarily designed for US government use</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">Australian Sovereign Cloud Providers</div>
+            <ul class="bullet-list">
+              <li><strong>Macquarie Government, Vault Cloud, Sliced Tech, AUCloud</strong> — AU-owned, AU-operated, not subject to foreign surveillance law</li>
+              <li>IRAP-assessed at PROTECTED level in some cases — required for PROTECTED-level Commonwealth health data</li>
+              <li>No CLOUD Act or equivalent foreign compelled-disclosure risk</li>
+              <li>Typically higher cost and less feature-rich than hyperscalers — tradeoff is legal protection</li>
+            </ul>
+          </div>
+          <div>
+            <div class="card-section-label">The Decision Rule for Health Data</div>
+            <ul class="bullet-list">
+              <li>MHR data → AU sovereign cloud only; no hyperscaler regardless of region</li>
+              <li>PROTECTED Commonwealth health data → AU sovereign cloud required; hyperscaler not sufficient</li>
+              <li>OFFICIAL: Sensitive Commonwealth data → IRAP-assessed hyperscaler AU region acceptable for most purposes</li>
+              <li>General private health data → hyperscaler AU region acceptable with APP 8 contractual protections and documented due diligence on CLOUD Act exposure</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ── FOOTNOTE ── -->
+<div class="footnote">
+  <div class="footnote-label">Practitioner's Note</div>
+  <p class="footnote-text">The most common compliance failures in Australian healthcare data are: <em>using health data for a secondary purpose without consent or a permitted health situation</em>; <em>delayed or absent NDB notifications</em> (now attracting civil penalties — see Australian Clinical Labs); <em>inadequate data security under APP 11</em>, particularly in cloud-hosted systems; and <em>cloud procurement that satisfies data residency but not data sovereignty</em> — choosing a US hyperscaler's Sydney region for MHR-adjacent workloads is the most common example. For medtech and SaMD companies, the convergence of Privacy Act obligations, TGA cybersecurity requirements, PSPF flow-down in government contracts, and OAIC scrutiny of AI systems means that privacy, sovereignty, and regulatory compliance cannot be treated as separate workstreams. A Privacy Impact Assessment — including a cloud provider sovereignty assessment — should be initiated at the same time as TGA classification is determined, not after product launch.</p>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function toggleSection(header) {
+  const sec = header.closest('.section');
+  sec.classList.toggle('collapsed');
+}
+
+function toggleCard(card) {
+  card.classList.toggle('open');
+}
+
+function expandAll() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('collapsed'));
+  document.querySelectorAll('.law-card').forEach(c => c.classList.add('open'));
+}
+
+function collapseAll() {
+  document.querySelectorAll('.section').forEach(s => s.classList.add('collapsed'));
+  document.querySelectorAll('.law-card').forEach(c => c.classList.remove('open'));
+}
+
+function toggleTheme() {
+  const html = document.documentElement;
+  const btn  = document.getElementById('themeBtn');
+  if (html.getAttribute('data-theme') === 'light') {
+    html.removeAttribute('data-theme');
+    btn.textContent = '☀ Light mode';
+  } else {
+    html.setAttribute('data-theme', 'light');
+    btn.textContent = '☾ Dark mode';
+  }
+}
+</script>
+</body>
+</html>
