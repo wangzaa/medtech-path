@@ -9,26 +9,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Newsreader:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0E0E12;
-    --bg-elevated: #16171D;
-    --bg-card: #1C1E26;
-    --ink: #ECE8DD;
-    --ink-soft: #C4C0B5;
-    --ink-muted: #8A8780;
-    --rule: #2A2C36;
-    --rule-soft: #1F2129;
-    --accent: #4ECDC4;
-    --accent-glow: rgba(78, 205, 196, 0.15);
-    --decision: #F4B860;
-    --pathway-a: #6DD3A7;
-    --pathway-b: #F4B860;
-    --pathway-c: #E27D7D;
-    --pathway-x: #C792EA;
-    --output: #4ECDC4;
-    --critical: #FF6B6B;
-  }
-
-  html[data-theme="light"] {
     --bg:           #F0F2F8;
     --bg-elevated:  #E8EBF4;
     --bg-card:      #E0E4F0;
@@ -46,6 +26,26 @@
     --pathway-x:    #7040B0;
     --output:       #1A9E96;
     --critical:     #B02020;
+  }
+
+  html[data-theme="dark"] {
+    --bg: #0E0E12;
+    --bg-elevated: #16171D;
+    --bg-card: #1C1E26;
+    --ink: #ECE8DD;
+    --ink-soft: #C4C0B5;
+    --ink-muted: #8A8780;
+    --rule: #2A2C36;
+    --rule-soft: #1F2129;
+    --accent: #4ECDC4;
+    --accent-glow: rgba(78, 205, 196, 0.15);
+    --decision: #F4B860;
+    --pathway-a: #6DD3A7;
+    --pathway-b: #F4B860;
+    --pathway-c: #E27D7D;
+    --pathway-x: #C792EA;
+    --output: #4ECDC4;
+    --critical: #FF6B6B;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1406,16 +1406,41 @@
     document.querySelectorAll('.stage').forEach(s => s.classList.add('collapsed'));
   }
 
+  function initTheme() {
+    const html = document.documentElement;
+    const btn = document.getElementById('themeBtn');
+    const saved = localStorage.getItem('theme') || 'light';
+    if (saved === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      if (btn) btn.textContent = '☾ Dark mode';
+    } else {
+      html.removeAttribute('data-theme');
+      if (btn) btn.textContent = '☀ Light mode';
+    }
+  }
+
   function toggleTheme() {
     const html = document.documentElement;
-    const btn  = document.getElementById('themeBtn');
-    if (html.getAttribute('data-theme') === 'light') {
+    const btn = document.getElementById('themeBtn');
+    const current = localStorage.getItem('theme') || 'light';
+    const newTheme = current === 'dark' ? 'light' : 'dark';
+
+    localStorage.setItem('theme', newTheme);
+
+    if (newTheme === 'dark') {
+      html.setAttribute('data-theme', 'dark');
+      btn.textContent = '☾ Dark mode';
+    } else {
       html.removeAttribute('data-theme');
       btn.textContent = '☀ Light mode';
-    } else {
-      html.setAttribute('data-theme', 'light');
-      btn.textContent = '☾ Dark mode';
     }
+  }
+
+  // Initialize theme on page load
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTheme);
+  } else {
+    initTheme();
   }
 </script>
 </body>
